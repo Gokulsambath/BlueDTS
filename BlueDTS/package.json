@@ -1,0 +1,9 @@
+{
+  "name": "blue-dts",
+  "version": "0.0.0",
+  "description": "BlueDTS",
+  "main": "server.js",
+  "author": {
+    "name": ""
+  }
+}

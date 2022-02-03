@@ -1,0 +1,2 @@
+D:\BlueDTSRepo\BlueDTS\BlueDTS\obj\Debug\BlueDTS.njsproj.CoreCompileInputs.cache
+D:\BlueDTSRepo\BlueDTS\BlueDTS\bin\Microsoft.NodejsTools.WebRole.dll
