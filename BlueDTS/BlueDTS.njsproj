@@ -28,6 +28,12 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="BlueDTS.SQL\DAL\Config.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="BlueDTS.SQL\Triggers\AppTrigger.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="server.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
@@ -36,6 +42,8 @@
     <Folder Include="BlueDTS.SQL\" />
     <Folder Include="BlueDTS.Mongo\" />
     <Folder Include="BlueDTS.Library\" />
+    <Folder Include="BlueDTS.SQL\DAL\" />
+    <Folder Include="BlueDTS.SQL\Triggers\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
   <ProjectExtensions>
