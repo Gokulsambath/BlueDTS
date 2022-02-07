@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "mysql": "^2.18.1",
+    "mysql-events": "0.0.11",
     "properties-reader": "^2.2.0"
   }
 }

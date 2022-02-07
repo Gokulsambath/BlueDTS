@@ -31,6 +31,9 @@
     <Content Include="BlueDTS.SQL\DAL\Config.js">
       <SubType>Code</SubType>
     </Content>
+	<Content Include="BlueDTS.SQL\DAL\DB_Demo.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="BlueDTS.SQL\Triggers\AppTrigger.js">
       <SubType>Code</SubType>
     </Content>
