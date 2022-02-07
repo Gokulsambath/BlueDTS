@@ -5,8 +5,5 @@
   "main": "server.js",
   "author": {
     "name": ""
-  },
-  "dependencies": {
-    "mysql-events": "0.0.11"
   }
 }
