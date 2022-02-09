@@ -28,6 +28,18 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="BlueDTS.Library\jsonFormation.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="BlueDTS.Library\sqlParser.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="BlueDTS.Mongo\bo\mongo.bo.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="BlueDTS.Mongo\dal\mongo.dao.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="BlueDTS.SQL\DAL\config.js">
       <SubType>Code</SubType>
     </Content>
@@ -48,6 +60,9 @@
     <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="BlueDTS.Mongo\bo\" />
+    <Folder Include="BlueDTS.Mongo\config\" />
+    <Folder Include="BlueDTS.Mongo\dal\" />
     <Folder Include="BlueDTS.SQL\" />
     <Folder Include="BlueDTS.Mongo\" />
     <Folder Include="BlueDTS.Library\" />

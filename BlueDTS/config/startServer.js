@@ -11,7 +11,6 @@
 var express = require('express');
 var app = express();
 var servEnv = require('./configServEnv');
-var session = require('express-session'); // to manage the session
 var http = require('http');
 var https = require('https');
 var debug = require('debug');
