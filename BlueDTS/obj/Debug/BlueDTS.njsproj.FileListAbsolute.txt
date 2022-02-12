@@ -2,3 +2,4 @@ D:\BlueDTSRepo\BlueDTS\BlueDTS\obj\Debug\BlueDTS.njsproj.CoreCompileInputs.cache
 D:\BlueDTSRepo\BlueDTS\BlueDTS\bin\Microsoft.NodejsTools.WebRole.dll
 D:\BlueDTSRepos\BlueDTS\BlueDTS\obj\Debug\BlueDTS.njsproj.CoreCompileInputs.cache
 D:\BlueDTSRepos\BlueDTS\BlueDTS\bin\Microsoft.NodejsTools.WebRole.dll
+D:\BlueDTSRepos\BlueDTS\BlueDTS\obj\Debug\BlueDTS.njsproj.AssemblyReference.cache

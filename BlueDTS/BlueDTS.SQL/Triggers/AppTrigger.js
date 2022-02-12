@@ -3,8 +3,8 @@ const MySQLEvents = require('@rodrigogs/mysql-events');
 
 
 const connection = mysql.createConnection({
-    host: 'dev.bluesecures.com',
-    user: 'dev',
+    host: 'pocejcall.bluesecures.com',
+    user: 'ejabberd',
     password: 'Blue@1234',
     database: 'ejabberd',
     port: 3306
@@ -17,6 +17,12 @@ const program = async () => {
             mysql: true,
         },
     });
+
+    //connection.query('select * from ejabberd.archive where timestamp = 1637681859787947', function (err, result1) {
+    //    if (err) throw err
+
+    //    console.log(result1);
+    //});
 
     await instance.start()
         .then(() => console.log('I\'m running!'))

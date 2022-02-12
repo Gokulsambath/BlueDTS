@@ -34,7 +34,13 @@
     <Content Include="BlueDTS.Library\sqlParser.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="BlueDTS.Mongo\bo\config\config.bo.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="BlueDTS.Mongo\bo\mongo.bo.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="BlueDTS.Mongo\config\dbconn.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="BlueDTS.Mongo\dal\mongo.dao.js">
@@ -46,7 +52,13 @@
     <Content Include="BlueDTS.SQL\DAL\DB_Demo.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="BlueDTS.SQL\Scheduler\scheduler.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="BlueDTS.SQL\Triggers\appTrigger.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="config\appDataStore\app.default.db.config.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="config\configServEnv.js">
@@ -61,14 +73,17 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BlueDTS.Mongo\bo\" />
+    <Folder Include="BlueDTS.Mongo\bo\config\" />
     <Folder Include="BlueDTS.Mongo\config\" />
     <Folder Include="BlueDTS.Mongo\dal\" />
     <Folder Include="BlueDTS.SQL\" />
     <Folder Include="BlueDTS.Mongo\" />
     <Folder Include="BlueDTS.Library\" />
     <Folder Include="BlueDTS.SQL\DAL\" />
+    <Folder Include="BlueDTS.SQL\Scheduler\" />
     <Folder Include="BlueDTS.SQL\Triggers\" />
     <Folder Include="config\" />
+    <Folder Include="config\appDataStore\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
   <ProjectExtensions>
