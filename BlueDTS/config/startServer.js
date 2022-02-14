@@ -101,6 +101,19 @@ if ((servEnv.protocol === "http") || (servEnv.protocol === "both")) {
 }
 /* ***************************************** END: HTTPS Server Setup ***************************************** */
 
+/* ***************************************** BEGIN: MySQL Application DB initializtion ***************************************** */
+// var DBConnPool = require('../dal/connpool/db.conn.pool');
+const sqldbconnection = require('../BlueDTS.SQL/dal/dbconnection');
+async function connectSqlDB() {
+    var dbconn = new sqldbconnection();
+    var dbconnobject = await dbconn.getDBConnection();
+    return dbconnobject;
+};
+connectSqlDB().then(() => {
+    console.log('MySQL DB Connection is successfully initialized...');
+});
+/* ***************************************** END: MySQL DB initializtion ***************************************** */
+
 
 // TEST CASES Access the session as req.session
 app.get('/', function (req, res) {

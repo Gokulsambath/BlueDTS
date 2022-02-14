@@ -14,10 +14,11 @@
 
 
 const DefaultSQLDB = {
-    host: 'dev.bluesecures.com',
-    user: 'dev',
+    host: 'pocejcall.bluesecures.com',
+    user: 'ejabberd',
     password: 'Blue@1234',
-    database: 'ejabberd'
+    database: 'ejabberd',
+    port: 3306
 };
 
 module.exports = DefaultSQLDB;
