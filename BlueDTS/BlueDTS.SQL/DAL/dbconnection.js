@@ -24,14 +24,14 @@ class DBConnection {
     }
 
 
-    async getDBConnection() {
+    async initializeDBConnection() {
 
         var testquery = 'select * from ejabberd.archive limit 1';
         dbconnection.query(testquery, function (err, result) {
             if (err) throw err
-            //console.log(result);
+            console.log(result);
         });
-        return dbconnection;
+        return ({ success: true, result: dbconnection });
     }
 }
 module.exports = DBConnection

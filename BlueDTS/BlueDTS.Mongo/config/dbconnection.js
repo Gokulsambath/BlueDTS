@@ -16,10 +16,10 @@ const { MongoClient } = require("mongodb");
 class DatabaseConnPool {
 
     constructor() {
-        console.log('Initiating DB connection pool ...');
+        console.log('Initiating default MONGODB connection pool ...');
     }
 
-    async initializeMongoDB(dbConfig, dbName) {
+    async initializeDefaultMongoDB(dbConfig, dbName) {
         var server = dbConfig.server;
         var dbPort = dbConfig.port;
         var dbUser = dbConfig.user;
@@ -55,9 +55,9 @@ class DatabaseConnPool {
         }
     }
 
-    async initializeAppDefaultDB(AppConfig) {
+    async initializeDBConnection(AppConfig) {
         var result = {};
-        result = await this.initializeMongoDB(AppConfig.db_config, AppConfig.db_name);
+        result = await this.initializeDefaultMongoDB(AppConfig.db_config, AppConfig.db_name);
         return result;
     }
 

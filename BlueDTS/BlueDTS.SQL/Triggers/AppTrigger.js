@@ -22,7 +22,7 @@ const program = async () => {
     //#region Initializing MYSql dbconnection
 
     var dbconn = new sqldbconnection();
-    const dbconnection = await dbconn.getDBConnection();
+    const dbconnection = (await dbconn.initializeDBConnection()).result;
 
     //#endregion 
 
@@ -34,11 +34,11 @@ const program = async () => {
         },
     });
 
-    //dbconnection.query('select * from ejabberd.archive where timestamp = 1637681859787947', function (err, result1) {
-    //    if (err) throw err
+    dbconnection.query('select * from ejabberd.archive where timestamp = 1637681859787947', function (err, result1) {
+        if (err) throw err
 
-    //    console.log(result1);
-    //});
+        console.log(result1);
+    });
 
     await instance.start()
         .then(() => console.log('I\'m running!'))
@@ -46,7 +46,7 @@ const program = async () => {
 
     instance.addTrigger({
         name: 'OPERATIONS',
-        expression: 'ejabberd.archive',
+        expression: 'ejabberd.test',
         statement: mysqlevent.STATEMENTS.INSERT,
         onEvent: (event) => {
             console.log(event)

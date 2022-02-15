@@ -28,10 +28,13 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="BlueDTS.Library\jsonFormation.js">
+    <Content Include="BlueDTS.Library\jsonprocessor\jsonFormation.js">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="BlueDTS.Library\xmlparser.js">
+    <Content Include="BlueDTS.Library\dataparser\xmlparser.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="BlueDTS.Mongo\bo\config\appDefault.bo.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="BlueDTS.Mongo\bo\config\config.bo.js">
@@ -40,10 +43,19 @@
     <Content Include="BlueDTS.Mongo\bo\mongo.bo.js">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="BlueDTS.Mongo\config\dbconn.js">
+    <Content Include="BlueDTS.Mongo\config\dbconfig.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="BlueDTS.Mongo\config\dbconnection.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="BlueDTS.Mongo\dal\appdefault.dal.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="BlueDTS.Mongo\dal\mongo.dao.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="BlueDTS.SQL\bo\Sqlbo.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="BlueDTS.SQL\config\dbconfig.js">
@@ -53,13 +65,13 @@
     <Content Include="BlueDTS.SQL\dal\DB_Demo.js">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="BlueDTS.SQL\Repository\repository.js" />
-    <Content Include="BlueDTS.SQL\Repository\repository.singleton.js" />
-    <Content Include="BlueDTS.SQL\Scheduler\scheduler.js">
+    <Content Include="BlueDTS.SQL\repository\repository.js" />
+    <Content Include="BlueDTS.SQL\repository\repository.singleton.js" />
+    <Content Include="BlueDTS.SQL\scheduling\scheduler.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="BlueDTS.SQL\test.js" />
-    <Content Include="BlueDTS.SQL\Triggers\appTrigger.js">
+    <Content Include="BlueDTS.SQL\triggers\appTrigger.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="config\appDataStore\app.default.db.config.js">
@@ -76,6 +88,8 @@
     <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="BlueDTS.Library\dataparser\" />
+    <Folder Include="BlueDTS.Library\jsonprocessor\" />
     <Folder Include="BlueDTS.Mongo\bo\" />
     <Folder Include="BlueDTS.Mongo\bo\config\" />
     <Folder Include="BlueDTS.Mongo\config\" />
@@ -85,9 +99,10 @@
     <Folder Include="BlueDTS.Library\" />
     <Folder Include="BlueDTS.SQL\dal\" />
     <Folder Include="BlueDTS.SQL\config\" />
-    <Folder Include="BlueDTS.SQL\Repository\" />
-    <Folder Include="BlueDTS.SQL\Scheduler\" />
-    <Folder Include="BlueDTS.SQL\Triggers\" />
+    <Folder Include="BlueDTS.SQL\bo\" />
+    <Folder Include="BlueDTS.SQL\repository\" />
+    <Folder Include="BlueDTS.SQL\scheduling\" />
+    <Folder Include="BlueDTS.SQL\triggers\" />
     <Folder Include="config\" />
     <Folder Include="config\appDataStore\" />
   </ItemGroup>

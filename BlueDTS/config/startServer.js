@@ -102,17 +102,28 @@ if ((servEnv.protocol === "http") || (servEnv.protocol === "both")) {
 /* ***************************************** END: HTTPS Server Setup ***************************************** */
 
 /* ***************************************** BEGIN: MySQL Application DB initializtion ***************************************** */
-// var DBConnPool = require('../dal/connpool/db.conn.pool');
 const sqldbconnection = require('../BlueDTS.SQL/dal/dbconnection');
 async function connectSqlDB() {
     var dbconn = new sqldbconnection();
-    var dbconnobject = await dbconn.getDBConnection();
+    var dbconnobject = await dbconn.initializeDBConnection();
     return dbconnobject;
 };
 connectSqlDB().then(() => {
     console.log('MySQL DB Connection is successfully initialized...');
 });
 /* ***************************************** END: MySQL DB initializtion ***************************************** */
+
+/* ***************************************** BEGIN: Default MongoDB Application DB initializtion ***************************************** */
+//const AppDefaultBO = require('../BlueDTS.Mongo/bo/config/appDefault.bo');
+//async function connectMongoDefaultDB() {
+//    var appDefDB = new AppDefaultBO();
+//    var dbconnobject = await appDefDB.getAppDefaultMongoDB();
+//    return dbconnobject;
+//};
+//connectMongoDefaultDB().then(() => {
+//    console.log('Application Default MongoDB Connection is successfully initialized...');
+//});
+/* ***************************************** END:Default MongoDB Application DB initializtion ***************************************** */
 
 
 // TEST CASES Access the session as req.session

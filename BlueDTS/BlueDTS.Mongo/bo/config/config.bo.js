@@ -14,7 +14,7 @@
     Reason      : NA
 ***************************************************************************************************************** */
 
-let AppDBConfig = require("../../config/appDataStore/app.default.db.config");
+let AppDBConfig = require("../config/appDataStore/app.default.db.config");
 
 class ConfigBO {
 
@@ -29,9 +29,7 @@ class ConfigBO {
         //filter DB
         let regionDB = (AppDBConfig || []).filter((key) => key.primary_db && key.region === servEnv.defaultRegion);
         regionDB = regionDB.length > 0 ? regionDB[0] : regionDB;
-        //filter store
-        let AppStoreConfig = (AppBlobStoreConfig || []).filter((key) => key.primary_store && key.region === servEnv.defaultRegion);
-        AppStoreConfig = AppStoreConfig.length > 0 ? AppStoreConfig[0] : null;
+        
 
         if (AppStoreConfig) AppStoreConfig = this.getDecryptedStoreConfigs(AppStoreConfig);
 

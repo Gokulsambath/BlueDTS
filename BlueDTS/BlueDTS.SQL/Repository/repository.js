@@ -17,6 +17,7 @@ class Repository {
         this.query = 'select * from ejabberd.archive where timestamp = 1637681859787947';
         console.log('repository created ...');
     }
+
     readArchivalData() {
         this.connObject.query(this.query, function (err, result, fields) {
             if (err) console.log('error occurred while processing query');
