@@ -11,7 +11,7 @@
 ***************************************************************************************************************** */
 
 
-const sqldbconnection = require('../dal/dbconnection');
+const sqldbconnection = require('../dal/appdefault.dal');
 const mysqlevent = require('@rodrigogs/mysql-events');
 
 
@@ -22,7 +22,7 @@ const program = async () => {
     //#region Initializing MYSql dbconnection
 
     var dbconn = new sqldbconnection();
-    const dbconnection = (await dbconn.initializeDBConnection()).result;
+    const dbconnection = (await dbconn.getMySQLDBConnection()).result;
 
     //#endregion 
 

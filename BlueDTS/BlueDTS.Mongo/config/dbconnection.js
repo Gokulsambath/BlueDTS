@@ -16,7 +16,6 @@ const { MongoClient } = require("mongodb");
 class DatabaseConnPool {
 
     constructor() {
-        console.log('Initiating default MONGODB connection pool ...');
     }
 
     async initializeDefaultMongoDB(dbConfig, dbName) {

@@ -11,7 +11,6 @@ class AppDefaultDAL {
     _subscriberDB = [];
 
     constructor() {
-        console.log('Initiating DB connection pool ...');
     }
 
     
@@ -27,7 +26,7 @@ class AppDefaultDAL {
     async getDefaultMongoDB() {
         if (this._mongoDefaultDB) return this._mongoDefaultDB;
         else {
-            console.warn("Trying to initialize Application default mongo database....");
+            //console.warn("Trying to initialize Application default mongo database....");
             var dbObj = await DBConn.initializeDBConnection(AppDBConfig);
             if (dbObj.success) {
                 this._appDefaultDB = dbObj.result;

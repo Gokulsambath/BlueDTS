@@ -14,7 +14,8 @@
     Reason      : NA
 ***************************************************************************************************************** */
 
-let AppDBConfig = require("../config/appDataStore/app.default.db.config");
+var servEnv = require('../../../config/configServEnv');
+let AppDBConfig = require("../../../config/appDataStore/app.default.db.config");
 
 class ConfigBO {
 
@@ -27,20 +28,10 @@ class ConfigBO {
     initAppDefaultConfigs() {
 
         //filter DB
-        let regionDB = (AppDBConfig || []).filter((key) => key.primary_db && key.region === servEnv.defaultRegion);
+        let regionDB = (AppDBConfig || []).filter((key) => key.primary_db && key.region === servEnv.defaultRegion && key.db_option === "mongo");
         regionDB = regionDB.length > 0 ? regionDB[0] : regionDB;
-        
 
-        if (AppStoreConfig) AppStoreConfig = this.getDecryptedStoreConfigs(AppStoreConfig);
-
-        regionDB = { ...regionDB, store_option: AppStoreConfig.store_option }
         this._appDefaultDBSettings = regionDB;
-    }
-
-    mapAppDBToSubscriber(subscriber_id) {
-        var subscriberDB = this._appDefaultDBSettings;
-
-        return subscriberDB;
     }
 
     getAppDefaultDBSettings() {

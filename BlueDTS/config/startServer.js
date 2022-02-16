@@ -102,10 +102,10 @@ if ((servEnv.protocol === "http") || (servEnv.protocol === "both")) {
 /* ***************************************** END: HTTPS Server Setup ***************************************** */
 
 /* ***************************************** BEGIN: MySQL Application DB initializtion ***************************************** */
-const sqldbconnection = require('../BlueDTS.SQL/dal/dbconnection');
+const SQLAppDefaultBO = require('../BlueDTS.SQL/bo/config/appDefault.bo');
 async function connectSqlDB() {
-    var dbconn = new sqldbconnection();
-    var dbconnobject = await dbconn.initializeDBConnection();
+    var sqldbconn = new SQLAppDefaultBO();
+    var dbconnobject = await sqldbconn.getAppDefaultMySQLDB();
     return dbconnobject;
 };
 connectSqlDB().then(() => {
@@ -114,15 +114,15 @@ connectSqlDB().then(() => {
 /* ***************************************** END: MySQL DB initializtion ***************************************** */
 
 /* ***************************************** BEGIN: Default MongoDB Application DB initializtion ***************************************** */
-//const AppDefaultBO = require('../BlueDTS.Mongo/bo/config/appDefault.bo');
-//async function connectMongoDefaultDB() {
-//    var appDefDB = new AppDefaultBO();
-//    var dbconnobject = await appDefDB.getAppDefaultMongoDB();
-//    return dbconnobject;
-//};
-//connectMongoDefaultDB().then(() => {
-//    console.log('Application Default MongoDB Connection is successfully initialized...');
-//});
+const AppDefaultBO = require('../BlueDTS.Mongo/bo/config/appDefault.bo');
+async function connectMongoDefaultDB() {
+    var appDefDB = new AppDefaultBO();
+    var dbconnobject = await appDefDB.getAppDefaultMongoDB();
+    return dbconnobject;
+};
+connectMongoDefaultDB().then(() => {
+    console.log('Application Default MongoDB Connection is successfully initialized...');
+});
 /* ***************************************** END:Default MongoDB Application DB initializtion ***************************************** */
 
 
