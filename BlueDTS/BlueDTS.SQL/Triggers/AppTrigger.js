@@ -11,7 +11,7 @@
 ***************************************************************************************************************** */
 
 
-const sqldbconnection = require('../dal/appdefault.dal');
+const sqlbo = require('../bo/config/appDefault.bo');
 const mysqlevent = require('@rodrigogs/mysql-events');
 
 
@@ -21,20 +21,20 @@ const program = async () => {
 
     //#region Initializing MYSql dbconnection
 
-    var dbconn = new sqldbconnection();
-    const dbconnection = (await dbconn.getMySQLDBConnection()).result;
+    var sqldbconn = new sqlbo();
+    var dbconn = await sqldbconn.getAppDefaultMySQLDB();
 
     //#endregion 
 
 
-    const instance = new mysqlevent(dbconnection, {
+    const instance = new mysqlevent(dbconn, {
         startAtEnd: true,
         excludedSchemas: {
             mysql: true,
         },
     });
 
-    dbconnection.query('select * from ejabberd.archive where timestamp = 1637681859787947', function (err, result1) {
+    dbconn.query('select * from ejabberd.archive where timestamp = 1637681859787947', function (err, result1) {
         if (err) throw err
 
         console.log(result1);
