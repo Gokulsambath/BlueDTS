@@ -13,11 +13,21 @@
 
 
 
+//const DefaultSQLDB = {
+//    host: 'pocejcall.bluesecures.com',
+//    user: 'ejabberd',
+//    password: 'Blue@1234',
+//    database: 'ejabberd',
+//    port: 3306
+//};
+
+
 const DefaultSQLDB = {
-    host: 'pocejcall.bluesecures.com',
-    user: 'ejabberd',
-    password: 'Blue@1234',
-    database: 'ejabberd',
+    host: 'localhost',
+    user: 'dev',
+    password: 'Aviator$1007',
+    database: 'deskfactors',
+    apptriggertable: 'deskfactors'+'.'+'testevent',
     port: 3306
 };
 

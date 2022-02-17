@@ -81,7 +81,10 @@
     <Content Include="BlueDTS.SQL\triggers\appTrigger.js">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="BlueDTS.SQL\triggers\apptriggers1.js">
+    <Content Include="BlueDTS.SQL\triggers\apptriggerevents.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="BlueDTS.SQL\triggers\apptriggerbase.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="config\appDataStore\app.default.db.config.js">

@@ -109,7 +109,7 @@ async function connectSqlDB() {
     return dbconnobject;
 };
 connectSqlDB().then(() => {
-    console.log('MySQL DB Connection is successfully initialized...');
+    console.log('MySQL DB Connection is successfully initialized...\n');
 });
 /* ***************************************** END: MySQL DB initializtion ***************************************** */
 
@@ -121,9 +121,21 @@ async function connectMongoDefaultDB() {
     return dbconnobject;
 };
 connectMongoDefaultDB().then(() => {
-    console.log('Application Default MongoDB Connection is successfully initialized...');
+    console.log('Application Default MongoDB Connection is successfully initialized...\n');
 });
 /* ***************************************** END:Default MongoDB Application DB initializtion ***************************************** */
+
+/* ***************************************** BEGIN: App Triggers initializtion ***************************************** */
+const apptriggerinst = require('../BlueDTS.SQL/triggers/apptriggerevents');
+async function startapptriggers() {
+    var apptrig = new apptriggerinst();
+    var trigconnobj = await apptrig.apptriggerinitialization();
+    return trigconnobj;
+};
+startapptriggers().then(() => {
+    console.log("Trigger has been configured ,connected and monitoring successfully....\n");
+});
+/* ***************************************** END:App Triggers initializtion ***************************************** */
 
 
 // TEST CASES Access the session as req.session
