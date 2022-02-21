@@ -12,6 +12,7 @@
 
 var MySQLEvents = require('mysql-events');
 const dbconfig = require("../config/dbconfig");
+var SqlBO = require("../../BlueDTS.SQL/bo/sql.bo")
 var dsn = null;
 
 class apptriggers {
@@ -33,12 +34,16 @@ class apptriggers {
 
         var watcher = mysqlEventWatcher.add(
             dbconfig.apptriggertable,
-            function (oldRow, newRow, event) {
+            async function (oldRow, newRow, event) {
                 console.log('Trigger has been executed....\n');
                 //row inserted
                 if (oldRow === null) {
                     console.log('inserted new row');
-                    console.log(newRow);
+                    console.log(newRow.fields);
+
+                    var Sql_BO = new SqlBO();
+                    var result = await Sql_BO.uploadCacheRow(newRow.fields);
+                    console.log(result);
                 }
 
                 //row deleted

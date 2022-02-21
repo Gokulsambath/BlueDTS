@@ -38,35 +38,23 @@ class ConfigBO {
         return this._appDefaultDBSettings;
     }
 
+    mapAppDBToSubscriber(subscriber_id) {
+        var subscriberDB = this._appDefaultDBSettings;
+
+        return subscriberDB;
+    }
+
     getDatabaseSettings(subscriber_id) {
         var subscriberDBSettings = null;
         if (!subscriber_id || subscriber_id === "default") {
             subscriberDBSettings = this.mapAppDBToSubscriber(subscriber_id);
             subscriberDBSettings.subscriber_id = subscriber_id;
             subscriberDBSettings.same_as_appDB = true;
-        } else {
-            let dbSetting = (this._dbSettings || []).filter((key) => key.subscriber_id === subscriber_id);
-            dbSetting = dbSetting.length > 0 ? dbSetting[0] : null;
-            if (!dbSetting) {
-                subscriberDBSettings = this.mapAppDBToSubscriber(subscriber_id);
-            } else {
-                if (dbSetting.same_as_appDB) {
-                    if (!dbSetting.same_as_appRegion) {
-                        //filter DB
-                        subscriberDBSettings = (AppDBConfig || []).filter((key) => key.primary_db && key.region === dbSetting.region);
-                        subscriberDBSettings = subscriberDBSettings.length > 0 ? subscriberDBSettings[0] : subscriberDBSettings;
-                        subscriberDBSettings = this.getDecryptedDBConfigs(subscriberDBSettings);
-                    } else {
-                        subscriberDBSettings = this.mapAppDBToSubscriber(subscriber_id);
-                    }
-                    subscriberDBSettings.subscriber_id = subscriber_id;
-                    subscriberDBSettings.same_as_appDB = true;
-                } else {
-                    subscriberDBSettings = dbSetting;
-                    subscriberDBSettings = this.getDecryptedDBConfigs(subscriberDBSettings);
-                    subscriberDBSettings.container_name = subscriber_id;
-                }
-            }
+        }
+
+        else {
+            
+            // to add subscriber db logic
         }
 
         return subscriberDBSettings;

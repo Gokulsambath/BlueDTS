@@ -60,5 +60,17 @@ class DatabaseConnPool {
         return result;
     }
 
+    async getSubscriberDB(dbConfig) {
+        var dbObj = null;
+        var result = null;
+
+        //initializing with mongodb connection
+        result = await this.initializeDefaultMongoDB(dbConfig.db_config, dbConfig.db_name);
+        dbObj = result.result;
+
+        return dbObj;
+
+    }
+
 };
 module.exports = new DatabaseConnPool;

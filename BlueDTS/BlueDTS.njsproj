@@ -52,6 +52,9 @@
     <Content Include="BlueDTS.Mongo\dal\appdefault.dal.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="BlueDTS.Mongo\dal\mongo.dal.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="BlueDTS.Mongo\dal\mongo.dao.js">
       <SubType>Code</SubType>
     </Content>
@@ -61,7 +64,7 @@
     <Content Include="BlueDTS.SQL\bo\config\config.sql.bo.js">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="BlueDTS.SQL\bo\Sqlbo.js">
+    <Content Include="BlueDTS.SQL\bo\sql.bo.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="BlueDTS.SQL\config\dbconnection.js" />

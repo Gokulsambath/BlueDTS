@@ -1,0 +1,35 @@
+/* *****************************************************************************************************************
+    Name        : Mongo DAL
+    Description : Data Access Layer to access the Mongo
+
+    Author      : Adarsh Dubey
+    Created On  : 12/02/2022
+
+    Modified By : NA
+    Modified On : NA
+    Reason      : NA
+***************************************************************************************************************** */
+
+var DBMongo = require("./mongo.dao");
+var Config_BO = require("../bo/config/config.bo");
+
+class MongoDAL {
+
+    constructor() {
+    }
+
+
+
+    async saveCacheRowData(subscriberId, rowData) {
+        var result = {};
+
+        //to do :logic to add the mongoserver db based on subscriberid
+    
+        var dbmongo = new DBMongo();
+        var dbConfig = Config_BO.getDatabaseSettings(subscriberId);
+        result = await dbmongo.createCacheData(dbConfig, rowData);
+        return result;
+    }
+}
+
+module.exports = MongoDAL;
