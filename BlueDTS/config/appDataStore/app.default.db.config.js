@@ -17,11 +17,11 @@ const AppDefaultDB = [{
     "service_type": "server",
     "db_name": "BlueSecuresDB_US",
     "db_config": {
-        "server": "Test:BlueDF1234@devdb.bluesecures.com",
+        "server": "pocejcall.bluesecures.com",
         "port": "27017",
         "pool_size": "4",
-        "user": "",
-        "password": ""
+        "user": "Dev",
+        "password": "BlueDF1234"
     },
     "region": "US"
 },{
