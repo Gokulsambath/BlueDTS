@@ -66,5 +66,19 @@ class MongoDAO {
         }
         return result;
     }
+
+
+    async getCacheData(dbConfig, newRow) {
+        var result = null;
+        var objOutput = { rowID: null };
+
+        try {
+           
+        }
+        catch (err) {
+            result = { status: false, result: err };
+        }
+        return result;
+    }
 }
 module.exports = MongoDAO

@@ -11,7 +11,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>9ed10c44-d820-4558-8e78-b042e0071146</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>server.js</StartupFile>
+    <StartupFile>BlueDTS.SQL\repository\repository.js</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -75,6 +75,8 @@
     <Content Include="BlueDTS.SQL\dal\DB_Demo.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="BlueDTS.SQL\helper\iterator.js" />
+    <Content Include="BlueDTS.SQL\model\message.js" />
     <Content Include="BlueDTS.SQL\repository\repository.js" />
     <Content Include="BlueDTS.SQL\repository\repository.singleton.js" />
     <Content Include="BlueDTS.SQL\scheduling\scheduler.js">
@@ -118,6 +120,7 @@
     <Folder Include="BlueDTS.SQL\config\" />
     <Folder Include="BlueDTS.SQL\bo\" />
     <Folder Include="BlueDTS.SQL\model\" />
+    <Folder Include="BlueDTS.SQL\helper\" />
     <Folder Include="BlueDTS.SQL\repository\" />
     <Folder Include="BlueDTS.SQL\scheduling\" />
     <Folder Include="BlueDTS.SQL\triggers\" />

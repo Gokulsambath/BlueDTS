@@ -12,12 +12,11 @@ const Repository = require("./repository")
 
 class RepositorySingleton {
     constructor() {
-        if (!RepositorySingleton.instance) {
-            console.log('creating repository singleton');
-            RepositorySingleton.instance  = new Repository();
-        }
     }
     getInstance() {
+        if (!RepositorySingleton.instance) {
+            RepositorySingleton.instance = new Repository();
+        }
         return RepositorySingleton.instance;
     }
 }
