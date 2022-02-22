@@ -33,7 +33,7 @@ class SqlBo {
        
         var mongo_bo = new MongoBO();
         var subscriberId = "default";
-        var result = await mongo_bo.PushCacheData(subscriberId, newRow);
+        var result = await mongo_bo.pushCacheData(subscriberId, newRow);
         return result;
     }
 

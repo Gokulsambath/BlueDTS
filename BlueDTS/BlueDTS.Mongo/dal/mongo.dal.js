@@ -30,6 +30,17 @@ class MongoDAL {
         result = await dbmongo.createCacheData(dbConfig, rowData);
         return result;
     }
+
+    async fetchCacheRows(subscriberId, timestamp) {
+        var result = {};
+
+        //to do :logic to add the mongoserver db based on subscriberid
+
+        var dbmongo = new DBMongo();
+        var dbConfig = Config_BO.getDatabaseSettings(subscriberId);
+        result = await dbmongo.getCacheData(dbConfig, timestamp);
+        return result;
+    }
 }
 
 module.exports = MongoDAL;

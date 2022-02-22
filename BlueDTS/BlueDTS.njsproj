@@ -11,7 +11,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>9ed10c44-d820-4558-8e78-b042e0071146</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>BlueDTS.SQL\repository\repository.js</StartupFile>
+    <StartupFile>server.js</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -58,6 +58,11 @@
     <Content Include="BlueDTS.Mongo\dal\mongo.dao.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="BlueDTS.Mongo\helper\iterator.js" />
+    <Content Include="BlueDTS.Mongo\model\message.js" />
+    <Content Include="BlueDTS.Mongo\scheduler\schedule.mongo.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="BlueDTS.SQL\bo\config\appDefault.bo.js">
       <SubType>Code</SubType>
     </Content>
@@ -72,16 +77,8 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="BlueDTS.SQL\dal\appdefault.dal.js" />
-    <Content Include="BlueDTS.SQL\dal\DB_Demo.js">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="BlueDTS.SQL\helper\iterator.js" />
-    <Content Include="BlueDTS.SQL\model\message.js" />
     <Content Include="BlueDTS.SQL\repository\repository.js" />
     <Content Include="BlueDTS.SQL\repository\repository.singleton.js" />
-    <Content Include="BlueDTS.SQL\scheduling\scheduler.js">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="BlueDTS.SQL\test.js" />
     <Content Include="BlueDTS.SQL\triggers\appTrigger.js">
       <SubType>Code</SubType>
@@ -112,6 +109,9 @@
     <Folder Include="BlueDTS.Mongo\bo\config\" />
     <Folder Include="BlueDTS.Mongo\config\" />
     <Folder Include="BlueDTS.Mongo\dal\" />
+    <Folder Include="BlueDTS.Mongo\helper\" />
+    <Folder Include="BlueDTS.Mongo\model\" />
+    <Folder Include="BlueDTS.Mongo\scheduler\" />
     <Folder Include="BlueDTS.SQL\" />
     <Folder Include="BlueDTS.Mongo\" />
     <Folder Include="BlueDTS.Library\" />
@@ -119,10 +119,7 @@
     <Folder Include="BlueDTS.SQL\dal\" />
     <Folder Include="BlueDTS.SQL\config\" />
     <Folder Include="BlueDTS.SQL\bo\" />
-    <Folder Include="BlueDTS.SQL\model\" />
-    <Folder Include="BlueDTS.SQL\helper\" />
     <Folder Include="BlueDTS.SQL\repository\" />
-    <Folder Include="BlueDTS.SQL\scheduling\" />
     <Folder Include="BlueDTS.SQL\triggers\" />
     <Folder Include="config\" />
     <Folder Include="config\appDataStore\" />

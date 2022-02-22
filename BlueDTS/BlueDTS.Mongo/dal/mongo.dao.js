@@ -68,12 +68,21 @@ class MongoDAO {
     }
 
 
-    async getCacheData(dbConfig, newRow) {
+    async getCacheData(dbConfig, timestamp) {
         var result = null;
-        var objOutput = { rowID: null };
+        var findFilter = {};
+        
 
         try {
-           
+
+            if (this._cacheCollection === null) { await this.initializeContainer(dbConfig); }
+
+            //findFilter.timestamp = timestamp;
+            //var foundItems = await this._msgCollection.find(findFilter);
+
+            var foundItems = await this._cacheCollection.find(findFilter).toArray();
+
+            result = { status: true, rows: foundItems };
         }
         catch (err) {
             result = { status: false, result: err };

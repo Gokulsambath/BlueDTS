@@ -26,11 +26,38 @@ class MongoBO {
     }
 
 
-    async PushCacheData(subscriberId, rowData) {
+    async pushCacheData(subscriberId, rowData) {
 
         var mongo_dal = new Mongo_DAL();
         var result = await mongo_dal.saveCacheRowData(subscriberId, rowData);
         return result;
     }
+
+
+    async getCacheData(subscriberId, timestamp) {
+
+        var mongo_dal = new Mongo_DAL();
+        var result = await mongo_dal.fetchCacheRows(subscriberId, timestamp);
+        return result;
+    }
+
+
+    async processCacheData(subscriberId) {
+
+        var timestamp = null //todo : add the logic to assign the new timestamp on the basis of last successfull timestamp.
+
+        var cachedRows = await this.getCacheData(subscriberId, timestamp);
+
+        console.log(cachedRows.rows);
+        return cachedRows;
+
+        // add the iterator logic
+        // add the xml processing logic here.
+    }
 }
+
+
+
+
+
 module.exports = MongoBO;
