@@ -52,8 +52,8 @@ const AppDefaultDB = [{
             "server": "pocejcall.bluesecures.com",
             "port": "3306",
             "pool_size": "1",
-            "user": "ejabberd",
-            "password": "Blue@1234"
+            "user": "deskfactoradmin",
+            "password": "Deskf@ctor?123"
         },
         "region": "US"
     }]
