@@ -59,7 +59,10 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="BlueDTS.Mongo\helper\iterator.js" />
-    <Content Include="BlueDTS.Mongo\model\message.js" />
+    <Content Include="BlueDTS.Mongo\models\log.model.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="BlueDTS.Mongo\models\message.js" />
     <Content Include="BlueDTS.Mongo\scheduler\schedule.mongo.js">
       <SubType>Code</SubType>
     </Content>
@@ -110,7 +113,7 @@
     <Folder Include="BlueDTS.Mongo\config\" />
     <Folder Include="BlueDTS.Mongo\dal\" />
     <Folder Include="BlueDTS.Mongo\helper\" />
-    <Folder Include="BlueDTS.Mongo\model\" />
+    <Folder Include="BlueDTS.Mongo\models\" />
     <Folder Include="BlueDTS.Mongo\scheduler\" />
     <Folder Include="BlueDTS.SQL\" />
     <Folder Include="BlueDTS.Mongo\" />
