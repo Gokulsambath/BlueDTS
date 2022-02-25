@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@rodrigogs/mysql-events": "^0.6.0",
+    "@skavinvarnan/cryptlib": "^1.0.3",
     "debug": "^4.3.3",
     "express": "^4.17.2",
     "express-session": "^1.17.2",

@@ -28,6 +28,9 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="BlueDTS.Library\crypto\crypto.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="BlueDTS.Library\jsonprocessor\jsonFormation.js">
       <SubType>Code</SubType>
     </Content>
@@ -108,6 +111,7 @@
   <ItemGroup>
     <Folder Include="BlueDTS.Library\dataparser\" />
     <Folder Include="BlueDTS.Library\jsonprocessor\" />
+    <Folder Include="BlueDTS.Library\crypto\" />
     <Folder Include="BlueDTS.Mongo\bo\" />
     <Folder Include="BlueDTS.Mongo\bo\config\" />
     <Folder Include="BlueDTS.Mongo\config\" />

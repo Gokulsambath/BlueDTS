@@ -10,6 +10,8 @@
     Reason      : NA
 ***************************************************************************************************************** */
 var Mongo_DAL = require("../dal/mongo.dal");
+var Crypto_LIB = require("../../BlueDTS.Library/crypto/crypto");
+var servEnv = require('../../config/configServEnv');
 
 class MongoBO {
 
@@ -39,6 +41,15 @@ class MongoBO {
         var mongo_dal = new Mongo_DAL();
         var result = await mongo_dal.fetchCacheRows(subscriberId, timestamp);
         return result;
+    }
+
+
+    async encryptMessageBody(message) {
+
+        var encryptionkey = servEnv.encryptMessageKey
+        var crypto_lib = new Crypto_LIB();
+        var hash = crypto_lib.encryptToHash(message, encryptionkey);
+        return hash;
     }
 
 

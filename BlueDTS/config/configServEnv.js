@@ -6,7 +6,8 @@ var configServerEnv = {
     httpPort: 6633,
     protocol: 'both',  // values: http OR https OR both
     timeZone: 'Asia/Kolkata',
-    defaultRegion: 'US'
+    defaultRegion: 'US',
+    encryptMessageKey: "rqWabc29JQR"
 }
 
 module.exports = configServerEnv;
