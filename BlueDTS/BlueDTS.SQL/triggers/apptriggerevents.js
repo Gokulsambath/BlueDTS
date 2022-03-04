@@ -42,8 +42,14 @@ class apptriggers {
                     console.log(newRow.fields);
 
                     var Sql_BO = new SqlBO();
-                    var result = await Sql_BO.uploadCacheRow(newRow.fields);
-                    console.log(result);
+                    if (newRow.fields) {
+
+                        var rowProcessStatus =  Sql_BO.processRowStatus(newRow.fields);
+                        if (rowProcessStatus)
+                            var result = await Sql_BO.uploadCacheRow(newRow.fields);
+                        console.log(result);
+                    }
+                    console.log("row is not eligble to get processed");
                 }
 
                 //row deleted

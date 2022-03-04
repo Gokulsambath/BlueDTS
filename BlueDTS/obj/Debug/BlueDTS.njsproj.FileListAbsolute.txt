@@ -5,3 +5,4 @@ D:\BlueDTSRepos\BlueDTS\BlueDTS\bin\Microsoft.NodejsTools.WebRole.dll
 D:\BlueDTSRepos\BlueDTS\BlueDTS\obj\Debug\BlueDTS.njsproj.AssemblyReference.cache
 D:\BlueDTSReposNew\BlueDTS\BlueDTS\obj\Debug\BlueDTS.njsproj.CoreCompileInputs.cache
 D:\BlueDTSReposNew\BlueDTS\BlueDTS\bin\Microsoft.NodejsTools.WebRole.dll
+D:\BlueDTSReposNew\BlueDTS\BlueDTS\obj\Debug\BlueDTS.njsproj.AssemblyReference.cache

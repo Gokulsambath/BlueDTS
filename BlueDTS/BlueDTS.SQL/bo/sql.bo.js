@@ -23,20 +23,25 @@ class SqlBo {
         }
     }
 
-
     setIterator(dataIterator) {
         this.iterator = dataIterator;
     }
 
     async uploadCacheRow(newRow) {
 
-       
         var mongo_bo = new MongoBO();
         var subscriberId = "default";
         var result = await mongo_bo.pushCacheData(subscriberId, newRow);
         return result;
     }
 
+    processRowStatus(newRow) {
+        // all buisness logic to decide for the row process status
+
+        if (newRow.txt === "" || newRow.txt === null)
+            return false;
+        return true;
+    }
 
     async initIterator() {
         this.setIterator(new Iterator());
