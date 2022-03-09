@@ -12,6 +12,7 @@
 var Mongo_DAL = require("../dal/mongo.dal");
 var Crypto_LIB = require("../../BlueDTS.Library/crypto/crypto");
 var servEnv = require('../../config/configServEnv');
+var Signal_BO = require("./signal.bo");
 
 class MongoBO {
 
@@ -52,6 +53,14 @@ class MongoBO {
         return hash;
     }
 
+    async decryptMessageBody() {
+
+        var signal_bo = new Signal_BO();
+        var message = "AzMI/JaYBxIhBTRQ83Pi6xoGvD00a0mSH31ALIy/bgd9Rq7rNa3I+FgUGiEFDU37cM7zDHEyDt5MGJa40g9GKjmFFTP3BhuIi7eqnGsiUjMKIQWTI8WUOXCIM+0LfvFVaR2xLbwtMIMJQUAHVRdwXHzvaBAAGAAiIKVEK7yMP9vdtLyaDPIwEDRNKycmeWW6hWcFJE4TS781gHPjxS68gEwohRow3ciZBg==";
+        var hash = signal_bo.decryptMessage('917897897899@dev.bluesecures.com', 675, message);
+        return hash;
+    }
+
 
     async processCacheData(subscriberId) {
 
@@ -66,9 +75,4 @@ class MongoBO {
         // add the xml processing logic here.
     }
 }
-
-
-
-
-
 module.exports = MongoBO;

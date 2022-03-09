@@ -9,9 +9,11 @@
   "dependencies": {
     "@rodrigogs/mysql-events": "^0.6.0",
     "@skavinvarnan/cryptlib": "^1.0.3",
+    "base64-arraybuffer": "^1.0.2",
     "debug": "^4.3.3",
     "express": "^4.17.2",
     "express-session": "^1.17.2",
+    "libsignal": "^2.0.1",
     "mongodb": "^4.3.1",
     "mysql": "^2.18.1",
     "mysql-events": "0.0.11",
