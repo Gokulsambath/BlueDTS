@@ -7,35 +7,24 @@
     Modified On : NA
     Reason      : NA
 ***************************************************************************************************************** */
-const RepositorySingleton = require("../repository/repository.singleton");
-
 class Iterator {
     constructor() {
-
     }
 
-    async setDataSource() {
-        console.log('setting data source');
-        this.repo = new RepositorySingleton().getInstance();
-        console.log('breakpoint 1');
-        var result = await this.repo.readArchivalData();
-        console.log('breakpoint 2');
-        this.rows = result[0];
-        console.log('printing result');
-        console.log(this.rows);
-        console.log('breakpoint 4');
+    async setDataSource(rows) {
+        this.dataSource = rows;
         this.curr_pos = 0;
     }
 
     //each call to next shall return the next data item
     next() {
-        let data = this.rows[this.curr_pos];
+        let data = this.dataSource[this.curr_pos];
         this.curr_pos++;
         return data;
     }
 
     hasNext() {
-        return this.curr_pos < this.rows.length;
+        return this.curr_pos < this.dataSource.length;
     }
 }
 module.exports = Iterator

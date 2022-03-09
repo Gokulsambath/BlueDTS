@@ -11,7 +11,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>9ed10c44-d820-4558-8e78-b042e0071146</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>server.js</StartupFile>
+    <StartupFile>BlueDTS.Mongo\scheduler\test.js</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -68,11 +68,17 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="BlueDTS.Mongo\helper\iterator.js" />
+    <Content Include="BlueDTS.Mongo\helper\model.builder.js" />
+    <Content Include="BlueDTS.Mongo\helper\xml.parser.js" />
     <Content Include="BlueDTS.Mongo\models\log.model.js">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="BlueDTS.Mongo\models\message.js" />
+    <Content Include="BlueDTS.Mongo\models\message.model.js" />
+    <Content Include="BlueDTS.Mongo\models\xmlcontent.model.js" />
     <Content Include="BlueDTS.Mongo\scheduler\schedule.mongo.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="BlueDTS.Mongo\scheduler\test.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="BlueDTS.SQL\bo\config\appDefault.bo.js">

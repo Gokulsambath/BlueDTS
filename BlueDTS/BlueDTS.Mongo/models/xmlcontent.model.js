@@ -1,29 +1,14 @@
 /* *****************************************************************************************************************
     Class       : Message
-    Description : represents XML message content
-    Author      : 
+    Description : represents xml content
+    Author      :
     Created On  : 14/02/2022
     Modified By : NA
     Modified On : NA
     Reason      : NA
 ***************************************************************************************************************** */
-const xml2js = require("xml2js")
-
-class Message {
-    constructor(xml) {
-        //contains code to construct message from the given xml
-        this.parsingErrorFlag = false;
-        //let msgObj = {};
-        xml2js.parseString(xml, function (err, resultObj) {
-            if (!err) {
-                //msgObj = result;
-                this.to = resultObj.message.$.to;
-                this.from = resultObj.message.$.to;
-                this.type = resultObj.message.$.type;
-                this.id = resultObj.message.$.id;
-            }
-            else this.parsingErrorFlag = true;
-        });
+class XMLContent {
+    constructor() {
     }
 
     //setters
@@ -43,6 +28,18 @@ class Message {
         this.id = id;
     }
 
+    setBody(txt) {
+        this.body = txt;
+    }
+
+    setSubscriberId(id) {
+        this.subscriberId = id;
+    }
+
+    setChatId(id) {
+        this.chatId = id;
+    }
+
     //getters
     getTo() {
         return this.to;
@@ -59,5 +56,17 @@ class Message {
     getId() {
         return this.id;
     }
+
+    getBody() {
+        return this.body;
+    }
+
+    getSubscriberId() {
+        return this.subscriberId;
+    }
+
+    getChatId() {
+        return this.chatId;
+    }
 }
-module.exports = Message
+module.exports = XMLContent;

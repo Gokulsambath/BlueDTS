@@ -138,15 +138,15 @@ startapptriggers().then(() => {
 /* ***************************************** END:App Triggers initializtion ***************************************** */
 
 /* ***************************************** BEGIN: To test any bo/dal/dao ***************************************** */
-const ctestBO = require('../BlueDTS.Mongo/bo/mongo.bo');
-// test logic and should be removed before the release
-async function testbo() {
-    var testmodulefunc = new ctestBO();
-    var result = await testmodulefunc.decryptMessageBody();
-};
-testbo().then(() => {
-    console.log('test function executed successfully...\n');
-});
+//const ctestBO = require('../BlueDTS.Mongo/bo/mongo.bo');
+//// test logic and should be removed before the release
+//async function testbo() {
+//    var testmodulefunc = new ctestBO();
+//    var result = await testmodulefunc.decryptMessageBody();
+//};
+//testbo().then(() => {
+//    console.log('test function executed successfully...\n');
+//});
 /* ***************************************** END:To test any bo/dal/dao ***************************************** */
 
 
