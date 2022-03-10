@@ -11,7 +11,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>9ed10c44-d820-4558-8e78-b042e0071146</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>BlueDTS.Mongo\scheduler\test.js</StartupFile>
+    <StartupFile>server.js</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>

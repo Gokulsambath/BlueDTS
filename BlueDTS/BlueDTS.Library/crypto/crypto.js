@@ -48,8 +48,8 @@ class CryptoLib {
 
         let registrationId = '';
 
-        let preKeyId = 1761280;
-        let signedPreKeyId = 2287575;
+        let preKeyId = 15076220;
+        let signedPreKeyId = 13001821;
 
         // let preKeyIdApi = "";
         let preKeyIdpubKey = "";
@@ -61,20 +61,20 @@ class CryptoLib {
 
         {
 
-            registrationId = 15306;
+            registrationId = 3333;
             //deviceId = preKeyBunch.docs[0].deviceId;
 
             // preKeyIdApi = preKeyBunch.docs[0].preKeyRecords[0].preKeyId;
-            preKeyIdpubKey = "BbEPGi8P02pB99vzXhRdtS0PtAYMMTMueLiQR7Ll8f4/";
+            preKeyIdpubKey = "BYhDahniDsvzz11F86u1v65L+qOmdOgplHbBwkhT0kIA";
             preKeyIdpubKey = this.base64ToArrayBuffer(preKeyIdpubKey);
-            preKeyIdprivKey = "0EkWP/wAVjJwvCPP3ij6DOOx9k/UipNaAvzlss58yGM=";
+            preKeyIdprivKey = "+DD5+qaJgIO0xPGV4RLXCcqMhxHbZbRaLfRY0rg2jmI=";
             preKeyIdprivKey = this.base64ToArrayBuffer(preKeyIdprivKey);
 
-            signedprivKey = "sNG3ZINdZF5Xx5fmeO7VDwwA1HdiSlmqSeBrmARQsmo=";
+            signedprivKey = "mLmmdpKdXBm5uYBaEuefoXLETHnKct2taq+1npn13kA=";
             signedprivKey = this.base64ToArrayBuffer(signedprivKey);
-            signedpubKey = "BTFdHpWUOQJvyPwKdMkqTPHHweZU0IFGgMKuJysi4/xB"
+            signedpubKey = "Bd8gwcJgaBHmXVy2r+vHYa5WpNpZYJh3UXc25JTh/rgM"
             signedpubKey = this.base64ToArrayBuffer(signedpubKey);
-            signatures = "96Sk5u+7qv9W52Hk3eZe8bM67Q2aNuqPo5YsqgCVdq7Ozktqra3+gKblWZvxz29LyavVUZ...";
+            signatures = "CkFNh5TzLzS3HkI4NvTaIG2EcC/WQT2KQL32+RVeD+8G5+xpXEuBIZ+FL0Ppdbku2KLcQU...";
             signatures = this.base64ToArrayBuffer(signatures);
         }
 
@@ -111,10 +111,10 @@ class CryptoLib {
 
         //var idenity= // fetch logic add here
 
-        let identityPrivateKey = "KPiI3tsE/+zjBwnlPZ7G11XBmVwDWiQ8MQ+Vrkcjb0o=";
-        let identityPublicKey = "BQRjsM19F3pNsYE5TqCEcNFbLdVwycSlNDBp2GUBthBn";
+        let identityPrivateKey = "AC9hLLIs2cYL5cIi1/FLwcPayzBfuHQwhn4cim3g61Q=";
+        let identityPublicKey = "BWx/HTGAHeM1TJNjnS592As5PbewWqYOOEftqR6N3oZp";
 
-        let registrationId = 3024;
+        let registrationId = 3333;
 
         identityPrivateKey = this.base64ToArrayBuffer(identityPrivateKey);
         identityPublicKey = this.base64ToArrayBuffer(identityPublicKey);

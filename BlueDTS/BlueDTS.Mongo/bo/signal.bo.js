@@ -50,10 +50,9 @@ class SignalBO {
             this.initializeMethod(recipientId, deviceId);
 
             var bufferctext64 = this.base64ToArrayBuffer(ciphertext);
-
             var bufferctext = Buffer.from(bufferctext64, "binary");
 
-            //var bufferctext = ciphertext;
+            bufferctext = bufferctext.slice(1);
 
             var address = new libsignal.ProtocolAddress(recipientId, deviceId);
             var sessionCipher = new libsignal.SessionCipher(store, address);
@@ -62,51 +61,20 @@ class SignalBO {
             // Returns a promise that resolves when the message is decrypted or
             // rejects if the identityKey differs from a previously seen identity for this
             // address.
-            sessionCipher.decryptPreKeyWhisperMessage(bufferctext64).then(function (plaintext) {
-                // handle plaintext ArrayBuffer
-                console.log("Decrypted Text", plaintext);
-            }).catch(function (error) {
-                // handle identity key conflict
-                console.log("Error on Decryption", error)
-            });
+            var plaintextbuffer = await sessionCipher.decryptPreKeyWhisperMessage(bufferctext);
+            // handle plaintext ArrayBuffer
+            console.log("Decrypted Text buffer", plaintextbuffer);
 
-            // Decrypt a normal message using an existing session
-            var sessionCipher = new libsignal.SessionCipher(store, address);
-            sessionCipher.decryptWhisperMessage(bufferctext).then(function (plaintext) {
-                // handle plaintext ArrayBuffer
-                console.log("Decrypted Text", plaintext);
-            }).catch(function (error) {
-                // handle identity key conflict
-                console.log("Error on Decryption", error)
-            });
+            // level 1 decoding
+            var plaintext = Buffer.from(plaintextbuffer, "base64").toString("utf8");
+            //level 2 decoding
+            plaintext = Buffer.from(plaintext, "base64").toString("utf8");
+
+            return { "status": true, result: plaintext};
+            
         } catch (error) {
             console.log(error);
-        }
-    }
-
-    async encryptMessage(recipientId, deviceId) {
-        try {
-
-            this.initializeMethod(recipientId, deviceId);
-
-            var bufferctext = Buffer.from("This is a sample text", "utf-8");
-
-            var address = new libsignal.ProtocolAddress(recipientId, deviceId);
-            
-            //encrypt signal logic
-            var sessionCipher = new libsignal.SessionCipher(store, address);
-
-            this.uploadSession(address);
-            this.uploadIdentity(address.id, new ArrayBuffer(32));
-
-
-            sessionCipher.encrypt(bufferctext).then(function (ciphertext) {
-                // ciphertext -> { type: <Number>, body: <string> }
-                handle(ciphertext.type, ciphertext.body);
-                console.log("Encrypted Text", ciphertext);
-            });
-        } catch (error) {
-            console.log(error)
+            return { "status": true, result: "" };
         }
     }
 

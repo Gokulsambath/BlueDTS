@@ -25,6 +25,12 @@ class ProtocolStore {
         this.store[key] = value;
     }
 
+    remove(key) {
+        if (key === null || key === undefined)
+            throw new Error("Tried to remove value for undefined/null key");
+        delete this.store[key];
+    }
+
 
  /*---------------------------------------  SESSION ------------------------------------------------------------*/
     loadSession(identifier) {
@@ -93,6 +99,26 @@ class ProtocolStore {
 
     storeSignedPreKey(keyId, keyPair) {
         this.put('25519KeysignedKey' + keyId, keyPair);
+    }
+
+    loadPreKey(keyId) {
+        var res = this.get('25519KeypreKey' + keyId);
+        if (res !== undefined) {
+            res = { pubKey: res.pubKey, privKey: res.privKey };
+        }
+        return res;
+    }
+
+    loadSignedPreKey(keyId) {
+        var res = this.get('25519KeysignedKey' + keyId);
+        if (res !== undefined) {
+            res = { pubKey: res.pubKey, privKey: res.privKey };
+        }
+        return Promise.resolve(res);
+    }
+
+    removePreKey(keyId) {
+        return this.remove('25519KeypreKey' + keyId);
     }
 }
 module.exports = ProtocolStore;

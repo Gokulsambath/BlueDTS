@@ -57,9 +57,16 @@ class MongoBO {
     async decryptMessageBody() {
 
         var signal_bo = new Signal_BO();
-        var message = "AzMI/JaYBxIhBTRQ83Pi6xoGvD00a0mSH31ALIy/bgd9Rq7rNa3I+FgUGiEFDU37cM7zDHEyDt5MGJa40g9GKjmFFTP3BhuIi7eqnGsiUjMKIQWTI8WUOXCIM+0LfvFVaR2xLbwtMIMJQUAHVRdwXHzvaBAAGAAiIKVEK7yMP9vdtLyaDPIwEDRNKycmeWW6hWcFJE4TS781gHPjxS68gEwohRow3ciZBg==";
-        var hash = signal_bo.decryptMessage('917897897899@dev.bluesecures.com', 675, message);
-        return hash;
+        var ciphertext = "AzMI/JaYBxIhBTRQ83Pi6xoGvD00a0mSH31ALIy/bgd9Rq7rNa3I+FgUGiEFDU37cM7zDHEyDt5MGJa40g9GKjmFFTP3BhuIi7eqnGsiUjMKIQWTI8WUOXCIM+0LfvFVaR2xLbwtMIMJQUAHVRdwXHzvaBAAGAAiIKVEK7yMP9vdtLyaDPIwEDRNKycmeWW6hWcFJE4TS781gHPjxS68gEwohRow3ciZBg==";
+        var messageobj = await signal_bo.decryptMessage('918973372074@dev.bluesecures.com', 3362, ciphertext);
+
+        if (messageobj.status) {
+            console.log(messageobj.result);
+            return messageobj.result;
+        }
+        else {
+            //todo
+        }
     }
 
 
