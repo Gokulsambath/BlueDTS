@@ -37,7 +37,6 @@ class MongoBO {
         return result;
     }
 
-
     async getCacheData(subscriberId, timestamp) {
 
         var mongo_dal = new Mongo_DAL();
@@ -45,19 +44,25 @@ class MongoBO {
         return result;
     }
 
-
-    async encryptMessageBody(message) {
+    async decryptSubKey(subKey) {
 
         var encryptionkey = servEnv.encryptMessageKey
+        var crypto_lib = new Crypto_LIB();
+        var hash = crypto_lib.encryptToHash(subKey, encryptionkey);
+        return hash;
+    }
+
+    async encryptwithBuisnessKey(message, encryptionkey) {
+
         var crypto_lib = new Crypto_LIB();
         var hash = crypto_lib.encryptToHash(message, encryptionkey);
         return hash;
     }
 
-    async decryptMessageBody() {
+    async decryptMessageBody(ciphertext) {
 
         var signal_bo = new Signal_BO();
-        var ciphertext = "AzMI/JaYBxIhBTRQ83Pi6xoGvD00a0mSH31ALIy/bgd9Rq7rNa3I+FgUGiEFDU37cM7zDHEyDt5MGJa40g9GKjmFFTP3BhuIi7eqnGsiUjMKIQWTI8WUOXCIM+0LfvFVaR2xLbwtMIMJQUAHVRdwXHzvaBAAGAAiIKVEK7yMP9vdtLyaDPIwEDRNKycmeWW6hWcFJE4TS781gHPjxS68gEwohRow3ciZBg==";
+        ciphertext = "AzMI/JaYBxIhBTRQ83Pi6xoGvD00a0mSH31ALIy/bgd9Rq7rNa3I+FgUGiEFDU37cM7zDHEyDt5MGJa40g9GKjmFFTP3BhuIi7eqnGsiUjMKIQWTI8WUOXCIM+0LfvFVaR2xLbwtMIMJQUAHVRdwXHzvaBAAGAAiIKVEK7yMP9vdtLyaDPIwEDRNKycmeWW6hWcFJE4TS781gHPjxS68gEwohRow3ciZBg==";
         var messageobj = await signal_bo.decryptMessage('918973372074@dev.bluesecures.com', 3362, ciphertext);
 
         if (messageobj.status) {
@@ -68,7 +73,6 @@ class MongoBO {
             //todo
         }
     }
-
 
     async processCacheData(subscriberId) {
 
@@ -103,6 +107,21 @@ class MongoBO {
                 console.log(err);
                 console.log('error reported while parsing xml');
             }
+        }
+        return result;
+    }
+
+    async encryptMessageBody(subscriberId, plaintext) {
+
+        var result = "";
+        var mongo_dal = new Mongo_DAL();
+        var subkeyresult = await mongo_dal.fetchSubscriberKey(subscriberId);
+
+        if (subkeyresult.status) {
+
+            var decryptedSubkey = await this.decryptSubKey(subkeyresult.subscriberKey);
+            var ciphertext = await this.encryptwithBuisnessKey(plaintext, decryptedSubkey);
+            return ciphertext;
         }
         return result;
     }

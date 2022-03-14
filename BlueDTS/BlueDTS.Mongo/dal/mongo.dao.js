@@ -12,6 +12,7 @@
 const CacheCollectionId = "EjabberdArchivalCache";
 const DTSProcessLogCollectionId = "DTSProcessLog";
 const EjabberdArchivalCollectionId = "EjabberdArchival";
+const SubscriberCollectionId = "Subscriber";
 
 var DBConnPool = require('../config/dbconnection');
 
@@ -21,6 +22,7 @@ class MongoDAO {
     _cacheCollection = null;
     _dTSProcessLogCollection = null;
     _ejabberdArchivalCollection = null;
+    _subscriberCollection = null;
 
 
     constructor() {
@@ -32,6 +34,7 @@ class MongoDAO {
         this._cacheCollection = await this._dbMongo.collection(CacheCollectionId);
         this._dTSProcessLogCollection = await this._dbMongo.collection(DTSProcessLogCollectionId);
         this._ejabberdArchivalCollection = await this._dbMongo.collection(EjabberdArchivalCollectionId);
+        this._subscriberCollection = await this._dbMongo.collection(SubscriberCollectionId);
     }
 
     /* ***************************** GETTERS & SETTERS ********************************************* */
@@ -65,6 +68,14 @@ class MongoDAO {
 
     set ejabberdArchivalCollection(ejabberdArchivalCollection) {
         this._ejabberdArchivalCollection = ejabberdArchivalCollection;
+    }
+
+    get subscriberCollection() {
+        return this._subscriberCollection;
+    }
+
+    set subscriberCollection(subscriberCollection) {
+        this._subscriberCollection = subscriberCollection;
     }
 
     /* ************************** MONGODAL CRUD ******************************************* */
@@ -160,7 +171,30 @@ class MongoDAO {
             if (foundItem)
                 result = { status: true, timestamp: foundItem.Timestamp };
             else
-                result = { status: true, timestamp: null };
+                result = { status: false, timestamp: null };
+        }
+        catch (err) {
+            result = { status: false, result: err };
+        }
+        return result;
+    }
+
+    async getSubscriberKey(dbConfig, subscriberId) {
+        var result = null;
+        var findFilter = {};
+
+        try {
+
+            if (this._subscriberCollection === null) { await this.initializeContainer(dbConfig); }
+
+            findFilter.subscriberId = subscriberId;
+           
+            var foundItem = await this._subscriberCollection.findOne(findFilter);
+
+            if (foundItem)
+                result = { status: true, subscriberKey: foundItem.subscriberKey };
+            else
+                result = { status: false, subscriberKey: null };
         }
         catch (err) {
             result = { status: false, result: err };

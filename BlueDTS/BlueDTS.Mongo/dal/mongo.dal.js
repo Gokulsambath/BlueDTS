@@ -19,7 +19,6 @@ class MongoDAL {
     }
 
 
-
     async saveCacheRowData(subscriberId, rowData) {
         var result = {};
 
@@ -39,6 +38,17 @@ class MongoDAL {
         var dbmongo = new DBMongo();
         var dbConfig = Config_BO.getDatabaseSettings(subscriberId);
         result = await dbmongo.getCacheData(dbConfig, timestamp);
+        return result;
+    }
+
+    async fetchSubscriberKey(subscriberId) {
+        var result = {};
+
+        //to do :logic to add the mongoserver db based on subscriberid
+
+        var dbmongo = new DBMongo();
+        var dbConfig = Config_BO.getDatabaseSettings(subscriberId);
+        result = await dbmongo.getSubscriberKey(dbConfig, subscriberId);
         return result;
     }
 }

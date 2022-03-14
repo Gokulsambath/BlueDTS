@@ -55,6 +55,7 @@ class ConfigBO {
         else {
             
             // to add subscriber db logic
+            subscriberDBSettings = this.mapAppDBToSubscriber(subscriber_id);
         }
 
         return subscriberDBSettings;

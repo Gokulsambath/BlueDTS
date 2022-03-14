@@ -25,7 +25,7 @@ const AppDefaultDB = [{
     },
     "region": "US"
 },{
-    "subscriberId": "default",
+    "subscriberId": "",
     "db_option": "mongo",
     "schema_less": true,
     "primary_db": true,

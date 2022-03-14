@@ -139,10 +139,12 @@ startapptriggers().then(() => {
 
 /* ***************************************** BEGIN: To test any bo/dal/dao ***************************************** */
 const ctestBO = require('../BlueDTS.Mongo/bo/mongo.bo');
-// test logic and should be removed before the release
+ //test logic and should be removed before the release
 async function testbo() {
     var testmodulefunc = new ctestBO();
-    var result = await testmodulefunc.decryptMessageBody();
+    var plaintext = await testmodulefunc.decryptMessageBody();
+    var ciphertext = await testmodulefunc.encryptMessageBody("61b86caeae050d28a96f640d", plaintext);
+    console.log(ciphertext);
 };
 testbo().then(() => {
     console.log('test function executed successfully...\n');
