@@ -51,6 +51,17 @@ class MongoDAL {
         result = await dbmongo.getSubscriberKey(dbConfig, subscriberId);
         return result;
     }
+
+    async fetchPreKeys(subscriberId, xmppUserId) {
+        var result = {};
+
+        //to do :logic to add the mongoserver db based on subscriberid
+
+        var dbmongo = new DBMongo();
+        var dbConfig = Config_BO.getDatabaseSettings(subscriberId);
+        result = await dbmongo.getPreKeysData(dbConfig, xmppUserId);
+        return result;
+    }
 }
 
 module.exports = MongoDAL;

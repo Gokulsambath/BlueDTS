@@ -142,9 +142,13 @@ const ctestBO = require('../BlueDTS.Mongo/bo/mongo.bo');
  //test logic and should be removed before the release
 async function testbo() {
     var testmodulefunc = new ctestBO();
-    var plaintext = await testmodulefunc.decryptMessageBody();
-    var ciphertext = await testmodulefunc.encryptMessageBody("61b86caeae050d28a96f640d", plaintext);
-    console.log(ciphertext);
+    var subscriberId = "default";
+    var toId = "9676b680-a528-11ec-8067-4fd778debfb8@conference.dev.bluesecures.com";
+    var fromId = "918887779994@dev.bluesecures.com";
+    var ciphertext = "AzMIlIDJBhIhBVV5uUVz83nJKVngfR3jhmPjRH90zP2ojczuZKmjcExZGiEFXHiYHeFQoTJdiMkQEcXFK+kNlfzQvxMZhlx4AoWdqXQiQjMKIQWLiiqZKJs0sfrkYbnfiRDAb0bbDsnWT2VQWkeKlxQKChAAGAAiENybPxs4JFRj9vMn8Xl5ZjoKVHXhMmOVbCgAMNyQ4wE=";
+    var plaintext = await testmodulefunc.decryptMessageBody(subscriberId,ciphertext, toId, fromId);
+    //var ciphertext = await testmodulefunc.encryptMessageBody("61b86caeae050d28a96f640d", plaintext);
+    console.log(plaintext);
 };
 testbo().then(() => {
     console.log('test function executed successfully...\n');

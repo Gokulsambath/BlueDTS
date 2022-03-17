@@ -59,19 +59,38 @@ class MongoBO {
         return hash;
     }
 
-    async decryptMessageBody(ciphertext) {
+    async decryptMessageBody(subscriberId ,cipherText, toId, FromId) {
 
-        var signal_bo = new Signal_BO();
-        ciphertext = "AzMI/JaYBxIhBTRQ83Pi6xoGvD00a0mSH31ALIy/bgd9Rq7rNa3I+FgUGiEFDU37cM7zDHEyDt5MGJa40g9GKjmFFTP3BhuIi7eqnGsiUjMKIQWTI8WUOXCIM+0LfvFVaR2xLbwtMIMJQUAHVRdwXHzvaBAAGAAiIKVEK7yMP9vdtLyaDPIwEDRNKycmeWW6hWcFJE4TS781gHPjxS68gEwohRow3ciZBg==";
-        var messageobj = await signal_bo.decryptMessage('918973372074@dev.bluesecures.com', 3362, ciphertext);
+        var plainText = "";
+        var mongo_dal = new Mongo_DAL();
+        if (cipherText !== "") {
+            var ownerPrekeyResult = await mongo_dal.fetchPreKeys(subscriberId, toId);
 
-        if (messageobj.status) {
-            console.log(messageobj.result);
-            return messageobj.result;
+            if (ownerPrekeyResult.status) {
+                var ownerPrekey = ownerPrekeyResult.result;
+
+                var selfPrekeyResult = await mongo_dal.fetchPreKeys(subscriberId, FromId);
+                if (selfPrekeyResult.status) {
+
+                    var selfPrekey = selfPrekeyResult.result;
+                    plainText = await this.decryptSignalCipherText(cipherText, ownerPrekey, selfPrekey);
+                    return plainText;
+                }
+            }
+            else {
+                return plainText;
+            }
         }
         else {
-            //todo
+            return plainText;
         }
+    }
+
+    async decryptSignalCipherText(cipherText, ownerPrekey, selfPrekey) {
+
+        var signal_bo = new Signal_BO();        
+        var messageobj = await signal_bo.decryptMessage(cipherText, ownerPrekey, selfPrekey);
+        return messageobj.result;    
     }
 
     async processCacheData(subscriberId) {

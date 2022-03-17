@@ -11,10 +11,10 @@ class SignalBO {
        
     }
 
-    initializeMethod(xmppUserId, deviceId) {
+    initializeMethod(ownerPrekey, selfPrekey) {
         var crypto_lib = new Crypto_LIB();
-        store = crypto_lib.generateStoreIdentityEncrypt(deviceId);
-        store = crypto_lib.generatePreKeyBundleEncrypt();
+        store = crypto_lib.generateStoreIdentityEncrypt(ownerPrekey, selfPrekey);
+        store = crypto_lib.generatePreKeyBundleEncrypt(ownerPrekey);
     }
 
     uploadSession(address) {
@@ -44,17 +44,17 @@ class SignalBO {
         store.saveIdentity(identifier, identityKey)
     }
 
-    async decryptMessage(recipientId = myId, deviceId = myId, ciphertext) {
+    async decryptMessage(cipherText, ownerPrekey, selfPrekey ) {
         try {
 
-            this.initializeMethod(recipientId, deviceId);
+            this.initializeMethod(ownerPrekey, selfPrekey);
 
-            var bufferctext64 = this.base64ToArrayBuffer(ciphertext);
+            var bufferctext64 = this.base64ToArrayBuffer(cipherText);
             var bufferctext = Buffer.from(bufferctext64, "binary");
 
             bufferctext = bufferctext.slice(1);
 
-            var address = new libsignal.ProtocolAddress(recipientId, deviceId);
+            var address = new libsignal.ProtocolAddress(ownerPrekey.xmppUserId, ownerPrekey.deviceId);
             var sessionCipher = new libsignal.SessionCipher(store, address);
 
             // Decrypt a PreKeyWhisperMessage by first establishing a new session.
@@ -74,7 +74,7 @@ class SignalBO {
             
         } catch (error) {
             console.log(error);
-            return { "status": true, result: "" };
+            return { "status": false, result: "" };
         }
     }
 

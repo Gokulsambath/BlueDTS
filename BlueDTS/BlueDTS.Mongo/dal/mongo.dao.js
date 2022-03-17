@@ -13,6 +13,7 @@ const CacheCollectionId = "EjabberdArchivalCache";
 const DTSProcessLogCollectionId = "DTSProcessLog";
 const EjabberdArchivalCollectionId = "EjabberdArchival";
 const SubscriberCollectionId = "Subscriber";
+const PreKeysCollectionId = "PreKeys";
 
 var DBConnPool = require('../config/dbconnection');
 
@@ -23,6 +24,7 @@ class MongoDAO {
     _dTSProcessLogCollection = null;
     _ejabberdArchivalCollection = null;
     _subscriberCollection = null;
+    _preKeysCollection = null;
 
 
     constructor() {
@@ -35,6 +37,7 @@ class MongoDAO {
         this._dTSProcessLogCollection = await this._dbMongo.collection(DTSProcessLogCollectionId);
         this._ejabberdArchivalCollection = await this._dbMongo.collection(EjabberdArchivalCollectionId);
         this._subscriberCollection = await this._dbMongo.collection(SubscriberCollectionId);
+        this._preKeysCollection = await this._dbMongo.collection(PreKeysCollectionId);
     }
 
     /* ***************************** GETTERS & SETTERS ********************************************* */
@@ -76,6 +79,14 @@ class MongoDAO {
 
     set subscriberCollection(subscriberCollection) {
         this._subscriberCollection = subscriberCollection;
+    }
+
+    get preKeysCollection() {
+        return this._preKeysCollection;
+    }
+
+    set preKeysCollection(preKeysCollection) {
+        this._preKeysCollection = preKeysCollection;
     }
 
     /* ************************** MONGODAL CRUD ******************************************* */
@@ -215,6 +226,29 @@ class MongoDAO {
                 result = { status: true };
             else
                 result = { status: false };
+        }
+        catch (err) {
+            result = { status: false, result: err };
+        }
+        return result;
+    }
+
+    async getPreKeysData(dbConfig, xmppUserId) {
+        var result = null;
+        var findFilter = {};
+
+        try {
+
+            if (this._preKeysCollection === null) { await this.initializeContainer(dbConfig); }
+
+            findFilter.xmppUserId = xmppUserId;
+
+            var foundItem = await this._preKeysCollection.findOne(findFilter);
+
+            if (foundItem)
+                result = { status: true, result: foundItem };
+            else
+                result = { status: false, subscriberKey: null };
         }
         catch (err) {
             result = { status: false, result: err };

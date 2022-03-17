@@ -38,97 +38,99 @@ class CryptoLib {
         return base64buffer.decode(base64);
     }
 
-    generatePreKeyBundleEncrypt(xmppuserId, deviceId) {
+    generatePreKeyBundleEncrypt(ownerPrekey) {
 
-        ////////
+        if (ownerPrekey) {
+            var result = store.getIdentityKeyPair()
 
-        var result = store.getIdentityKeyPair()
+            let identity = result[0];
 
-        let identity = result[0];
+            let registrationId = '';
+            let deviceId = '';
 
-        let registrationId = '';
+            let preKeyId = ownerPrekey.preKeyRecords[0].preKeyId;
+            let signedPreKeyId = ownerPrekey.signedPrekeyId;
 
-        let preKeyId = 15076220;
-        let signedPreKeyId = 13001821;
+            // let preKeyIdApi = "";
+            let preKeyIdpubKey = "";
+            let preKeyIdprivKey = "";
 
-        // let preKeyIdApi = "";
-        let preKeyIdpubKey = "";
-        let preKeyIdprivKey = "";
+            let signedpubKey = "";
+            let signedprivKey = "";
+            let signatures = ""
 
-        let signedpubKey = "";
-        let signedprivKey = "";
-        let signatures = ""
+            {
 
-        {
+                registrationId = ownerPrekey.registrationId;
+                deviceId = ownerPrekey.deviceId;
 
-            registrationId = 3333;
-            //deviceId = preKeyBunch.docs[0].deviceId;
+                
+                preKeyIdpubKey = ownerPrekey.preKeyRecords[0].publicKey;
+                preKeyIdpubKey = this.base64ToArrayBuffer(preKeyIdpubKey);
+                preKeyIdprivKey = ownerPrekey.preKeyRecords[0].privateKey;
+                preKeyIdprivKey = this.base64ToArrayBuffer(preKeyIdprivKey);
 
-            // preKeyIdApi = preKeyBunch.docs[0].preKeyRecords[0].preKeyId;
-            preKeyIdpubKey = "BYhDahniDsvzz11F86u1v65L+qOmdOgplHbBwkhT0kIA";
-            preKeyIdpubKey = this.base64ToArrayBuffer(preKeyIdpubKey);
-            preKeyIdprivKey = "+DD5+qaJgIO0xPGV4RLXCcqMhxHbZbRaLfRY0rg2jmI=";
-            preKeyIdprivKey = this.base64ToArrayBuffer(preKeyIdprivKey);
+                signedprivKey = ownerPrekey.privateKey;
+                signedprivKey = this.base64ToArrayBuffer(signedprivKey);
+                signedpubKey = ownerPrekey.publicKey;
+                signedpubKey = this.base64ToArrayBuffer(signedpubKey);
+                signatures = ownerPrekey.signature;
+                signatures = this.base64ToArrayBuffer(signatures);
+            }
 
-            signedprivKey = "mLmmdpKdXBm5uYBaEuefoXLETHnKct2taq+1npn13kA=";
-            signedprivKey = this.base64ToArrayBuffer(signedprivKey);
-            signedpubKey = "Bd8gwcJgaBHmXVy2r+vHYa5WpNpZYJh3UXc25JTh/rgM"
-            signedpubKey = this.base64ToArrayBuffer(signedpubKey);
-            signatures = "CkFNh5TzLzS3HkI4NvTaIG2EcC/WQT2KQL32+RVeD+8G5+xpXEuBIZ+FL0Ppdbku2KLcQU...";
-            signatures = this.base64ToArrayBuffer(signatures);
+
+            let preKey = { "keyId": preKeyId, "keyPair": { "privKey": preKeyIdprivKey, "pubKey": preKeyIdpubKey } };
+
+            let signedPreKey = { "keyId": signedPreKeyId, "keyPair": { "privKey": signedprivKey, "pubKey": signedpubKey }, "signature": signatures };
+
+            store.storePreKey(preKeyId, preKey.keyPair);
+            store.storeSignedPreKey(signedPreKeyId, signedPreKey.keyPair);
         }
-
-
-        let preKey = { "keyId": preKeyId, "keyPair": { "privKey": preKeyIdprivKey, "pubKey": preKeyIdpubKey } };
-
-        let signedPreKey = { "keyId": signedPreKeyId, "keyPair": { "privKey": signedprivKey, "pubKey": signedpubKey }, "signature": signatures };
-
-        store.storePreKey(preKeyId, preKey.keyPair);
-        store.storeSignedPreKey(signedPreKeyId, signedPreKey.keyPair);
 
         return store;
-
-        ////////
-        //return {
-        //    registrationId: registrationId,
-        //    deviceId: deviceId,
-        //    identityKey: identity.pubKey,
-        //    signedPreKey: {
-        //        keyId: signedPreKeyId,
-        //        publicKey: signedPreKey.keyPair.pubKey,
-        //        signature: signedPreKey.signature
-        //    },
-        //    preKey: {
-        //        keyId: preKeyId,
-        //        publicKey: preKey.keyPair.pubKey
-
-        //    }
-        //};
-
     }
 
-    generateStoreIdentityEncrypt() {
+    generateStoreIdentityEncrypt(ownerPrekey,selfPreKey) {
 
-        //var idenity= // fetch logic add here
+        if (ownerPrekey) {
 
-        let identityPrivateKey = "AC9hLLIs2cYL5cIi1/FLwcPayzBfuHQwhn4cim3g61Q=";
-        let identityPublicKey = "BWx/HTGAHeM1TJNjnS592As5PbewWqYOOEftqR6N3oZp";
+            let identityPrivateKey = ownerPrekey.identityPrivateKey;
+            let identityPublicKey = ownerPrekey.identityPublicKey;
+            identityPrivateKey = this.base64ToArrayBuffer(identityPrivateKey);
+            identityPublicKey = this.base64ToArrayBuffer(identityPublicKey);
 
-        let registrationId = 3333;
+            let actIdentityKey = { "privKey": identityPrivateKey, "pubKey": identityPublicKey };
 
-        identityPrivateKey = this.base64ToArrayBuffer(identityPrivateKey);
-        identityPublicKey = this.base64ToArrayBuffer(identityPublicKey);
+            let para = actIdentityKey;
 
-        let actIdentityKey = { "privKey": identityPrivateKey, "pubKey": identityPublicKey };
+            if (identityPublicKey.byteLength === 32) {
+                para = this.processKeys(actIdentityKey);
+            }
 
-        let para = actIdentityKey;
+            store.put('identityKey', para);
+            store.put('registrationId', ownerPrekey.registrationId);
 
-        if (identityPublicKey.byteLength === 32) {
-            para = this.processKeys(actIdentityKey);
+            
         }
 
-        store.put('identityKey', para);
-        store.put('registrationId', registrationId);
+        if (selfPreKey) {
+
+            let identityPrivateKeySelf = selfPreKey.identityPrivateKey;
+            let identityPublicKeySelf = selfPreKey.identityPublicKey;
+            identityPrivateKeySelf = this.base64ToArrayBuffer(identityPrivateKeySelf);
+            identityPublicKeySelf = this.base64ToArrayBuffer(identityPublicKeySelf);
+
+            let actIdentityKeySelf = { "privKey": identityPrivateKeySelf, "pubKey": identityPublicKeySelf };
+
+            let para = actIdentityKeySelf;
+
+            if (identityPublicKeySelf.byteLength === 32) {
+                para = this.processKeys(actIdentityKeySelf);
+            }
+
+            store.put('localIdentityKey', para);
+            store.put('localRegistrationId', selfPreKey.registrationId);
+        }
 
         return store;
     }
