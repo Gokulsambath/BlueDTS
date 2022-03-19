@@ -110,7 +110,7 @@ class MongoDAO {
         return result;
     }
 
-    async getCacheData(dbConfig, timestamp) {
+    async getCacheData(dbConfig, toTS , fromTS) {
         var result = null;
         var findFilter = {};
         
@@ -118,9 +118,8 @@ class MongoDAO {
 
             if (this._cacheCollection === null) { await this.initializeContainer(dbConfig); }
 
-            //findFilter.timestamp = timestamp;
-            //var foundItems = await this._msgCollection.find(findFilter);
-
+            findFilter.timestamp = { $gte: fromTS, $lte: toTS };
+          
             var foundItems = await this._cacheCollection.find(findFilter).toArray();
 
             result = { status: true, rows: foundItems };
@@ -142,7 +141,6 @@ class MongoDAO {
 
            
             // disposing the last successfull timestamp in the collection
-
             findFilter.Latest = true;
             findFilter.Status = 'S';
 
@@ -174,13 +172,13 @@ class MongoDAO {
 
             if (this._dTSProcessLogCollection === null) { await this.initializeContainer(dbConfig); }
 
-            findFilter.Latest = true;
-            findFilter.Status = 'S';
+            findFilter.latest = true;
+            findFilter.status = 'S';
             
             var foundItem = await this._dTSProcessLogCollection.findOne(findFilter);
 
             if (foundItem)
-                result = { status: true, timestamp: foundItem.Timestamp };
+                result = { status: true, timestamp: foundItem.timestamp };
             else
                 result = { status: false, timestamp: null };
         }

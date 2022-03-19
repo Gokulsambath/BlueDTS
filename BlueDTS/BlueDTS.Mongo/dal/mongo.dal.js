@@ -30,14 +30,14 @@ class MongoDAL {
         return result;
     }
 
-    async fetchCacheRows(subscriberId, timestamp) {
+    async fetchCacheRows(subscriberId, to , from) {
         var result = {};
 
         //to do :logic to add the mongoserver db based on subscriberid
 
         var dbmongo = new DBMongo();
         var dbConfig = Config_BO.getDatabaseSettings(subscriberId);
-        result = await dbmongo.getCacheData(dbConfig, timestamp);
+        result = await dbmongo.getCacheData(dbConfig, to , from);
         return result;
     }
 
@@ -60,6 +60,17 @@ class MongoDAL {
         var dbmongo = new DBMongo();
         var dbConfig = Config_BO.getDatabaseSettings(subscriberId);
         result = await dbmongo.getPreKeysData(dbConfig, xmppUserId);
+        return result;
+    }
+
+    async fetchLastTimestamp(subscriberId) {
+        var result = {};
+
+        //to do :logic to add the mongoserver db based on subscriberid
+
+        var dbmongo = new DBMongo();
+        var dbConfig = Config_BO.getDatabaseSettings(subscriberId);
+        result = await dbmongo.getTimestamp(dbConfig);
         return result;
     }
 }

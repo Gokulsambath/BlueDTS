@@ -37,10 +37,10 @@ class MongoBO {
         return result;
     }
 
-    async getCacheData(subscriberId, timestamp) {
+    async getCacheData(subscriberId, to , from) {
 
         var mongo_dal = new Mongo_DAL();
-        var result = await mongo_dal.fetchCacheRows(subscriberId, timestamp);
+        var result = await mongo_dal.fetchCacheRows(subscriberId, to, from);
         return result;
     }
 
@@ -93,41 +93,62 @@ class MongoBO {
         return messageobj.result;    
     }
 
+    async getLatestTimestampsToProcess(subscriberId) {
+
+        var result = {};
+        var mongo_dal = new Mongo_DAL();
+        var result = await mongo_dal.fetchLastTimestamp(subscriberId);
+
+        if (result) {
+            var from = result.timestamp;
+            var fromDate = new Date(from);
+            var toDate = this.add_minutes(fromDate, servEnv.timestampInterval);
+            var to = toDate.getTime();
+            result = { status: true, to: to, from: from };
+            return result;
+        };
+    }
+
     async processCacheData(subscriberId) {
 
-        var timestamp = null //todo : add the logic to assign the new timestamp on the basis of last successfull timestamp.
+        var timestamps = await this.getLatestTimestampsToProcess(subscriberId);
 
-        var cachedRows = await this.getCacheData(subscriberId, timestamp);
+        if (timestamps.status) {
 
-        console.log(cachedRows.rows);
+            var cachedRows = await this.getCacheData(subscriberId, timestamps.to, timestamps.from);
 
-        let iterator = new Iterator();
-        iterator.setDataSource(cachedRows.rows);
-        let result = [];
+            if (cachedRows.status && cachedRows.rows.length > 0) {
+                console.log(cachedRows.rows);
 
-        while (iterator.hasNext()) {
-            let data = iterator.next();
-            console.log(data.xml);
-            let msgbuilder = new MessageModelBuilder();
-            try {
-                let msg = await msgbuilder.createMessage(data);
-                let body = msg.getMessageBody();
-                if (body != null || body) {
-                    console.log(body);
-                    body = await this.decryptMessageBody(body);
-                    body = await this.encryptMessageBody(body);
-                    msg.setMessageBody(body);
+                let iterator = new Iterator();
+                iterator.setDataSource(cachedRows.rows);
+                let result = [];
+
+                while (iterator.hasNext()) {
+                    let data = iterator.next();
+                    console.log(data.xml);
+                    let msgbuilder = new MessageModelBuilder();
+                    try {
+                        let msg = await msgbuilder.createMessage(data);
+                        let body = msg.getMessageBody();
+                        if (body != null || body) {
+                            console.log(body);
+                            body = await this.decryptMessageBody(body);
+                            body = await this.encryptMessageBody(body);
+                            msg.setMessageBody(body);
+                        }
+                        console.log(msg);
+                        result.push(msg);
+                    }
+                    catch (err) {
+                        console.log('logging error: ');
+                        console.log(err);
+                        console.log('error reported while parsing xml');
+                    }
                 }
-                console.log(msg);
-                result.push(msg);
-            }
-            catch (err) {
-                console.log('logging error: ');
-                console.log(err);
-                console.log('error reported while parsing xml');
+                return result;
             }
         }
-        return result;
     }
 
     async encryptMessageBody(subscriberId, plaintext) {
@@ -144,6 +165,10 @@ class MongoBO {
         }
         return result;
     }
+
+    add_minutes = function (dt, minutes) {
+    return new Date(dt.getTime() + minutes * 60000);
+}
 
 }
 module.exports = MongoBO;

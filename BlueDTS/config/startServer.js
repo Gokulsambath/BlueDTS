@@ -146,7 +146,7 @@ async function testbo() {
     var toId = "9676b680-a528-11ec-8067-4fd778debfb8@conference.dev.bluesecures.com";
     var fromId = "918887779994@dev.bluesecures.com";
     var ciphertext = "AzMIlIDJBhIhBVV5uUVz83nJKVngfR3jhmPjRH90zP2ojczuZKmjcExZGiEFXHiYHeFQoTJdiMkQEcXFK+kNlfzQvxMZhlx4AoWdqXQiQjMKIQWLiiqZKJs0sfrkYbnfiRDAb0bbDsnWT2VQWkeKlxQKChAAGAAiENybPxs4JFRj9vMn8Xl5ZjoKVHXhMmOVbCgAMNyQ4wE=";
-    var plaintext = await testmodulefunc.decryptMessageBody(subscriberId,ciphertext, toId, fromId);
+    var plaintext = await testmodulefunc.processCacheData(subscriberId);
     //var ciphertext = await testmodulefunc.encryptMessageBody("61b86caeae050d28a96f640d", plaintext);
     console.log(plaintext);
 };

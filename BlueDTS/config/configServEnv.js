@@ -7,7 +7,8 @@ var configServerEnv = {
     protocol: 'both',  // values: http OR https OR both
     timeZone: 'Asia/Kolkata',
     defaultRegion: 'US',
-    encryptMessageKey: "rqWabc29JQR"
+    encryptMessageKey: "rqWabc29JQR",
+    timestampInterval : 10
 }
 
 module.exports = configServerEnv;

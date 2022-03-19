@@ -1,3 +1,13 @@
+/* *****************************************************************************************************************
+    Name        : Protocol Store
+    Description : class to handle store intialization and configurations
+    Author      : Adarsh Dubey
+    Created On  : 04/03/2022
+    Modified By : NA
+    Modified On : NA
+    Reason      : NA
+***************************************************************************************************************** */
+
 var Util = require('../../Signal/src/helpers');
 var protocol_address = require('../../Signal/src/protocol_address')
 
