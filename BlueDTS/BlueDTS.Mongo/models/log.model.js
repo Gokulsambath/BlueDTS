@@ -15,11 +15,11 @@
 
 class TransactionLogModel {
 
-    _processId = null;
-    _timestamp = null;
-    _createdAt = null;
-    _status = null;
-    _latest = null;
+    processId = null;
+    timestamp = null;
+    createdAt = null;
+    status = null;
+    latest = null;
 
 
     // Constructors & Mappings
@@ -29,42 +29,44 @@ class TransactionLogModel {
 
 
     get processId() {
-        return this._processId;
+        return this.processId;
     }
 
     set processId(processId) {
-        this._processId = processId;
+        this.processId = processId;
     }
 
     get timestamp() {
-        return this._timestamp;
+        return this.timestamp;
     }
 
     set timestamp(timestamp) {
-        this._timestamp = timestamp;
+        this.timestamp = timestamp;
     }
 
     get createdAt() {
-        return this._createdAt;
+        return this.createdAt;
     }
 
     set createdAt(createdAt) {
-        this._createdAt = createdAt;
+        this.createdAt = createdAt;
     }
 
     get status() {
-        return this._status;
+        return this.status;
     }
 
     set status(status) {
-        this._status = status;
+        this.status = status;
     }
 
     get latest() {
-        return this._latest;
+        return this.latest;
     }
 
     set latest(latest) {
-        this._latest = latest;
+        this.latest = latest;
     }
 };
+
+module.exports = TransactionLogModel;

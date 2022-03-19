@@ -13,6 +13,7 @@ var Mongo_DAL = require("../dal/mongo.dal");
 var Crypto_LIB = require("../../BlueDTS.Library/crypto/crypto");
 var servEnv = require('../../config/configServEnv');
 var Signal_BO = require("./signal.bo");
+var Log_Model = require("../models/log.model");
 const Iterator = require('../helper/iterator');
 const MessageModelBuilder = require('../helper/model.builder')
 
@@ -109,6 +110,19 @@ class MongoBO {
         };
     }
 
+    async saveJobLog(subscriberId , timestamp) {
+
+        var log = new Log_Model();
+
+        log.status = 'S';
+        log.latest = true;
+        log.timestamp = timestamp
+        log.createdAt = Date.now()
+
+        var mongo_dal = new Mongo_DAL();
+        await mongo_dal.saveTimestampLog(subscriberId , log);
+    }
+
     async processCacheData(subscriberId) {
 
         var timestamps = await this.getLatestTimestampsToProcess(subscriberId);
@@ -118,35 +132,38 @@ class MongoBO {
             var cachedRows = await this.getCacheData(subscriberId, timestamps.to, timestamps.from);
 
             if (cachedRows.status && cachedRows.rows.length > 0) {
-                console.log(cachedRows.rows);
 
-                let iterator = new Iterator();
-                iterator.setDataSource(cachedRows.rows);
-                let result = [];
+                //console.log(cachedRows.rows);
 
-                while (iterator.hasNext()) {
-                    let data = iterator.next();
-                    console.log(data.xml);
-                    let msgbuilder = new MessageModelBuilder();
-                    try {
-                        let msg = await msgbuilder.createMessage(data);
-                        let body = msg.getMessageBody();
-                        if (body != null || body) {
-                            console.log(body);
-                            body = await this.decryptMessageBody(body);
-                            body = await this.encryptMessageBody(body);
-                            msg.setMessageBody(body);
-                        }
-                        console.log(msg);
-                        result.push(msg);
-                    }
-                    catch (err) {
-                        console.log('logging error: ');
-                        console.log(err);
-                        console.log('error reported while parsing xml');
-                    }
-                }
-                return result;
+                //let iterator = new Iterator();
+                //iterator.setDataSource(cachedRows.rows);
+                //let result = [];
+
+                //while (iterator.hasNext()) {
+                //    let data = iterator.next();
+                //    console.log(data.xml);
+                //    let msgbuilder = new MessageModelBuilder();
+                //    try {
+                //        let msg = await msgbuilder.createMessage(data);
+                //        let body = msg.getMessageBody();
+                //        if (body != null || body) {
+                //            console.log(body);
+                //            body = await this.decryptMessageBody(body);
+                //            body = await this.encryptMessageBody(body);
+                //            msg.setMessageBody(body);
+                //        }
+                //        console.log(msg);
+                //        result.push(msg);
+                //    }
+                //    catch (err) {
+                //        console.log('logging error: ');
+                //        console.log(err);
+                //        console.log('error reported while parsing xml');
+                //    }
+                //}
+                //return result;
+
+                await this.saveJobLog(subscriberId ,timestamps.to);
             }
         }
     }

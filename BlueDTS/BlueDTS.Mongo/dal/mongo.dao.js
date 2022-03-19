@@ -141,21 +141,20 @@ class MongoDAO {
 
            
             // disposing the last successfull timestamp in the collection
-            findFilter.Latest = true;
-            findFilter.Status = 'S';
+            findFilter.latest = true;
+            findFilter.status = 'S';
 
             var foundItem = await this._dTSProcessLogCollection.findOne(findFilter);
 
-            var updateId = await this._dTSProcessLogCollection.updateOne({ _id: foundItem.insertedId }, { $set: { Latest: false , Status : 'P' } });
+            var updateId = await this._dTSProcessLogCollection.updateOne({ _id: foundItem._id }, { $set: { latest: false , status : 'P' } });
 
             // set the current row as latest processed object having successful timestamp
             var cacheResult = await this._dTSProcessLogCollection.insertOne(log);
 
             objOutput.ProcessId = cacheResult.insertedId.toString();
 
-            var updateId = await this._dTSProcessLogCollection.updateOne({ _id: cacheResult.insertedId }, { $set: { ProcessId: objOutput.ProcessId } });
+            var updateId = await this._dTSProcessLogCollection.updateOne({ _id: cacheResult.insertedId }, { $set: { processId: objOutput.ProcessId } });
 
-            objOutput.rowID = cacheResult.insertedId.toString();
             result = { status: true, result: objOutput };
         }
         catch (err) {

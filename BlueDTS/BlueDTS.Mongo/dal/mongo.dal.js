@@ -73,6 +73,17 @@ class MongoDAL {
         result = await dbmongo.getTimestamp(dbConfig);
         return result;
     }
+
+    async saveTimestampLog(subscriberId , log) {
+        var result = {};
+
+        //to do :logic to add the mongoserver db based on subscriberid
+
+        var dbmongo = new DBMongo();
+        var dbConfig = Config_BO.getDatabaseSettings(subscriberId);
+        result = await dbmongo.saveTimestamp(dbConfig, log);
+        return result;
+    }
 }
 
 module.exports = MongoDAL;
