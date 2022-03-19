@@ -21,16 +21,6 @@ class MongoBO {
 
     constructor() { }
 
-    async storeData(subscriberId, data) {
-
-        try {
-            //todo
-        } catch (err) {
-            result = null;
-        }
-    }
-
-
     async pushCacheData(subscriberId, rowData) {
 
         var mongo_dal = new Mongo_DAL();
@@ -123,6 +113,17 @@ class MongoBO {
         await mongo_dal.saveTimestampLog(subscriberId , log);
     }
 
+    dataProcessValidation(rows, timestamp) {
+
+        //logic to prevalidate date before processing
+
+        if (rows.every(e => e.timestamp === timestamp))
+            return false; //these data are already processed in last batch
+
+        return true;
+
+    }
+
     async processCacheData(subscriberId) {
 
         var timestamps = await this.getLatestTimestampsToProcess(subscriberId);
@@ -133,38 +134,42 @@ class MongoBO {
 
             if (cachedRows.status && cachedRows.rows.length > 0) {
 
-                //console.log(cachedRows.rows);
+                //pre validation
+                if (this.dataProcessValidation(cachedRows.rows, timestamps.from)) {
 
-                //let iterator = new Iterator();
-                //iterator.setDataSource(cachedRows.rows);
-                //let result = [];
+                    //console.log(cachedRows.rows);
 
-                //while (iterator.hasNext()) {
-                //    let data = iterator.next();
-                //    console.log(data.xml);
-                //    let msgbuilder = new MessageModelBuilder();
-                //    try {
-                //        let msg = await msgbuilder.createMessage(data);
-                //        let body = msg.getMessageBody();
-                //        if (body != null || body) {
-                //            console.log(body);
-                //            body = await this.decryptMessageBody(body);
-                //            body = await this.encryptMessageBody(body);
-                //            msg.setMessageBody(body);
-                //        }
-                //        console.log(msg);
-                //        result.push(msg);
-                //    }
-                //    catch (err) {
-                //        console.log('logging error: ');
-                //        console.log(err);
-                //        console.log('error reported while parsing xml');
-                //    }
-                //}
-                //return result;
+                    //let iterator = new Iterator();
+                    //iterator.setDataSource(cachedRows.rows);
+                    //let result = [];
 
-                await this.saveJobLog(subscriberId, timestamps.to);
-                return true;
+                    //while (iterator.hasNext()) {
+                    //    let data = iterator.next();
+                    //    console.log(data.xml);
+                    //    let msgbuilder = new MessageModelBuilder();
+                    //    try {
+                    //        let msg = await msgbuilder.createMessage(data);
+                    //        let body = msg.getMessageBody();
+                    //        if (body != null || body) {
+                    //            console.log(body);
+                    //            body = await this.decryptMessageBody(body);
+                    //            body = await this.encryptMessageBody(body);
+                    //            msg.setMessageBody(body);
+                    //        }
+                    //        console.log(msg);
+                    //        result.push(msg);
+                    //    }
+                    //    catch (err) {
+                    //        console.log('logging error: ');
+                    //        console.log(err);
+                    //        console.log('error reported while parsing xml');
+                    //    }
+                    //}
+                    //return result;
+
+                    await this.saveJobLog(subscriberId, timestamps.to);
+                    return true;
+                }
             }
         }
     }

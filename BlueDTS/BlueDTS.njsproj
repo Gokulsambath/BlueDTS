@@ -78,9 +78,6 @@
     <Content Include="BlueDTS.Mongo\scheduler\schedule.mongo.js">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="BlueDTS.Mongo\scheduler\test.js">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="BlueDTS.SQL\bo\config\appDefault.bo.js">
       <SubType>Code</SubType>
     </Content>

@@ -17,10 +17,11 @@ class Scheduler {
         var processdts = new CronJob(cronRange.ProcessDTSTick, async function () {
             var mongo_bo = new MongoBo();
 
-            //var jobresult = await mongo_bo.processCacheData("default");
+            var jobresult = await mongo_bo.processCacheData("default");
 
-            //if (jobresult)
+            if (jobresult)
                 console.log("dts job processed successfully");
+            console.log("dts job processed.");
         }, null, true, servEnv.timeZone);
 
         processdts.start();

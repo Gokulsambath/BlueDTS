@@ -1,5 +1,5 @@
 const cronRange = {
-    ProcessDTSTick: '*/10 * * * * *'
+    ProcessDTSTick: '*/30 * * * * *'
 };
 
 module.exports = { cronRange };
