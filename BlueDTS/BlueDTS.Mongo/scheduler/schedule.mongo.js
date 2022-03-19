@@ -1,5 +1,7 @@
-const cron = require("node-cron");
+var CronJob = require('cron').CronJob;
 const MongoBo = require('../bo/mongo.bo');
+const servEnv = require("../../config/configServEnv");
+var { cronRange } = require('../../config/constants/constants');
 
 
 class Scheduler {
@@ -8,30 +10,20 @@ class Scheduler {
 
     }
 
-    scheduleMinute(minute) {
 
-    }
+    startJob = async () => {
 
-    scheduleSecond(seconds) {
 
-    }
+        var processdts = new CronJob(cronRange.ProcessDTSTick, async function () {
+            var mongo_bo = new MongoBo();
 
-    getTask() {
-        return () => {
-            console.log("running a task every 10 second");
-            let m = new MongoBo();
-            console.log('testing processCacheData');
-            m.processCacheData().
-                then(function (value) {
-                    console.log('hello world');
-                });
-            console.log('tested processCacheData');
-        }
-    }
+            //var jobresult = await mongo_bo.processCacheData("default");
 
-    start() {
+            //if (jobresult)
+                console.log("dts job processed successfully");
+        }, null, true, servEnv.timeZone);
 
-        cron.schedule("*/10 * * * * *", this.getTask());
-    }
+        processdts.start();
+    }    
 }
 module.exports = Scheduler;

@@ -113,6 +113,9 @@
     <Content Include="Config\configServEnv.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Config\constants\constants.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Config\startServer.js">
       <SubType>Code</SubType>
     </Content>
@@ -270,6 +273,7 @@
     <Folder Include="BlueDTS.SQL\triggers\" />
     <Folder Include="Config\" />
     <Folder Include="Config\appDataStore\" />
+    <Folder Include="Config\constants\" />
     <Folder Include="Signal\" />
     <Folder Include="Signal\.git\" />
     <Folder Include="Signal\.git\hooks\" />

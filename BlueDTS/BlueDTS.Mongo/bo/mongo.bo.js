@@ -163,7 +163,8 @@ class MongoBO {
                 //}
                 //return result;
 
-                await this.saveJobLog(subscriberId ,timestamps.to);
+                await this.saveJobLog(subscriberId, timestamps.to);
+                return true;
             }
         }
     }
