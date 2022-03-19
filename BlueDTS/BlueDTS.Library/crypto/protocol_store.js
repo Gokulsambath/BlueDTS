@@ -1,5 +1,5 @@
-var Util = require('../../libsignal-node/src/helpers');
-var protocol_address = require('../../libsignal-node/src/protocol_address')
+var Util = require('../../Signal/src/helpers');
+var protocol_address = require('../../Signal/src/protocol_address')
 
 class ProtocolStore {
 

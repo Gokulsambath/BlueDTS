@@ -1,6 +1,6 @@
-var libsignal = require("../../libsignal-node/index")
+var libsignal = require("../../Signal/index")
 var Crypto_LIB = require("../../BlueDTS.Library/crypto/crypto");
-const BaseKeyType = require('../../libsignal-node/src/base_key_type');
+const BaseKeyType = require('../../Signal/src/base_key_type');
 var base64buffer = require('base64-arraybuffer');
 var store = null;
 
