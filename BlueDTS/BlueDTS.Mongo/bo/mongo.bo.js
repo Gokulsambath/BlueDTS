@@ -113,6 +113,13 @@ class MongoBO {
         await mongo_dal.saveTimestampLog(subscriberId , log);
     }
 
+    async saveArchivalRow(subscriberId, row) {
+
+        var mongo_dal = new Mongo_DAL();
+        var result = await mongo_dal.saveArchivalRowData(subscriberId, row);
+        return result;
+    }
+
     dataProcessValidation(rows, timestamp) {
 
         //logic to prevalidate date before processing
@@ -137,39 +144,40 @@ class MongoBO {
 
             if (cachedRows.status && cachedRows.rows.length > 0) {
 
-                //console.log(cachedRows.rows);
+                let iterator = new Iterator();
+                iterator.setDataSource(cachedRows.rows);
+                let result = [];
 
-                //let iterator = new Iterator();
-                //iterator.setDataSource(cachedRows.rows);
-                //let result = [];
+                while (iterator.hasNext()) {
+                    let data = iterator.next();
+                    let msgbuilder = new MessageModelBuilder();
+                    try {
 
-                //while (iterator.hasNext()) {
-                //    let data = iterator.next();
-                //    console.log(data.xml);
-                //    let msgbuilder = new MessageModelBuilder();
-                //    try {
-                //        let msg = await msgbuilder.createMessage(data);
-                //        let body = msg.getMessageBody();
-                //        if (body != null || body) {
-                //            console.log(body);
-                //            body = await this.decryptMessageBody(body);
-                //            body = await this.encryptMessageBody(body);
-                //            msg.setMessageBody(body);
-                //        }
-                //        console.log(msg);
-                //        result.push(msg);
-                //    }
-                //    catch (err) {
-                //        console.log('logging error: ');
-                //        console.log(err);
-                //        console.log('error reported while parsing xml');
-                //    }
-                //}
-                //return result;
+                        // complete rowobj formation based on different message type
+                        let txtmodelObj = await msgbuilder.createTextModel(data);
 
+                        //body extraction and processing
+                        var body = txtmodelObj.messageText;
+                        if (body != null || body !== undefined || body !== "") {
+                            
+                            //cryptographic activities
+                            body = body.replace(/\s/g, '');
+                            body = await this.decryptMessageBody(txtmodelObj.subscriberId, body, txtmodelObj.receiverXmppId, txtmodelObj.senderXmppId);
+                            body = await this.encryptMessageBody(txtmodelObj.subscriberId, body);
+
+                            txtmodelObj.messageText = body;
+
+                            // here we save the finally processed row to mongo collection.
+                            await this.saveArchivalRow(subscriberId, txtmodelObj);
+                        }
+                    }
+                    catch (err) {
+                        console.log(err);
+                        continue;//log the error and continue processing the next row.
+                    }
+                }
+                // here we update the timestamp when all rows are processed successfully.
                 await this.saveJobLog(subscriberId, timestamps.to);
-                return true;
-
             }
         }
     }

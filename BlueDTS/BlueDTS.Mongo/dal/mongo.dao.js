@@ -210,19 +210,20 @@ class MongoDAO {
         return result;
     }
 
-    async createRowData(dbConfig, newRows , rowscount) {
+    async createRowData(dbConfig, newRow) {
         var result = null;
-       
+        var objOutput = { RowId: null };
+
         try {
             if (this._ejabberdArchivalCollection === null) { await this.initializeContainer(dbConfig); }
             this._ejabberdArchivalCollection.upsert = true;
 
-            var cacheResult = await this._ejabberdArchivalCollection.insert(newRows);
+            var cacheResult = await this._ejabberdArchivalCollection.insertOne(newRow);
 
-            if (cacheResult.nInserted === rowscount)
-                result = { status: true };
-            else
-                result = { status: false };
+            objOutput.RowId = cacheResult.insertedId.toString();
+            var updateId = await this._ejabberdArchivalCollection.updateOne({ _id: cacheResult.insertedId }, { $set: { messageId: objOutput.RowId } });
+
+            result = { status: true, result: objOutput };
         }
         catch (err) {
             result = { status: false, result: err };

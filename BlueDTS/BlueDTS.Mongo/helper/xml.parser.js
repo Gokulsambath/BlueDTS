@@ -141,8 +141,8 @@ class XMLParser {
 
      parseFrom() {
 
-        if (this.fromExists()) {
-            return this._xmlObj['message']['$']['from'];
+         if (this.fromExists()) {
+             return this._xmlObj['message']['$']['from'].split('/')[0];
         }
         else {
             return null;

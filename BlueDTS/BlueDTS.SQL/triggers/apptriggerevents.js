@@ -26,8 +26,6 @@ class apptriggers {
         };
     }
 
-
-
     async apptriggerinitialization(){
 
         var mysqlEventWatcher = MySQLEvents(dsn);
@@ -44,22 +42,24 @@ class apptriggers {
                     var Sql_BO = new SqlBO();
                     if (newRow.fields) {
 
-                        var rowProcessStatus =  Sql_BO.processRowStatus(newRow.fields);
+                        var rowProcessStatus = Sql_BO.processRowStatus(newRow.fields);
                         if (rowProcessStatus)
                             var result = await Sql_BO.uploadCacheRow(newRow.fields);
                         console.log(result);
                     }
-                    console.log("row is not eligble to get processed");
+                    else
+                        console.log("row is not eligble to get processed");
                 }
 
                 //row deleted
                 if (newRow === null) {
-                    console.log('delete');
+
+                    //trigger for delete
                 }
 
                 //row updated
                 if (oldRow !== null && newRow !== null) {
-                    console.log('update');
+                  //trigger for update
                 }
 
                 //detailed event information

@@ -28,7 +28,6 @@ class Scheduler {
 
     startJob = async () => {
 
-
         var processdts = new CronJob(cronRange.ProcessDTSTick, async function () {
             var mongo_bo = new MongoBo();
 

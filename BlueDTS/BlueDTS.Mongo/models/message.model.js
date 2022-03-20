@@ -1,7 +1,7 @@
 /* *****************************************************************************************************************
-    Class       : Message
+    Class       : xml model
     Description : represents message content
-    Author      : 
+    Author      : Adarsh Dubey
     Created On  : 14/02/2022
     Modified By : NA
     Modified On : NA

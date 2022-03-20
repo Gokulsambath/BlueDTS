@@ -1,35 +1,10 @@
-/* *****************************************************************************************************************
-    Class       : ModelBuilder
-    Description : Responsible for creating message
-    Author      :
-    Created On  : 14/02/2022
-    Modified By : NA
-    Modified On : NA
-    Reason      : NA
-***************************************************************************************************************** */
 const Message = require('../models/message.model');
 const XMLContent = require('../models/xmlcontent.model');
 const XMLParser = require('../helper/xml.parser');
-const TextMsgModel = require('../models/text.model');
+
 
 class MessageModelBuilder {
     constructor() {
-    }
-
-    async createTextModel(data) {
-
-        var result = await this.createXMLContent(data.xml);
-        var txtModel = new TextMsgModel();
-        if (result.success) {
-            var content = result.content;
-            txtModel.subscriberId = content.getSubscriberId();
-            txtModel.receiverXmppId = content.getTo();
-            txtModel.senderXmppId = content.getFrom();
-            txtModel.xmppChatId = content.getTo();
-            txtModel.xmppMessageId = content.getId();
-            txtModel.messageText = content.getBody();
-        }
-        return txtModel;
     }
 
     async createMessage(data) {
