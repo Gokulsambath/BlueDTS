@@ -118,7 +118,7 @@ class MongoDAO {
 
             if (this._cacheCollection === null) { await this.initializeContainer(dbConfig); }
 
-            findFilter.timestamp = { $gte: fromTS, $lte: toTS };
+            findFilter.timestamp = { $gte: fromTS, $lt: toTS };
           
             var foundItems = await this._cacheCollection.find(findFilter).toArray();
 

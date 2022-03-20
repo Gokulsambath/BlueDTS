@@ -116,12 +116,15 @@ class MongoBO {
     dataProcessValidation(rows, timestamp) {
 
         //logic to prevalidate date before processing
+        const arr = []
 
         if (rows.every(e => e.timestamp === timestamp))
-            return false; //these data are already processed in last batch
+            return rows = arr; //these data are already processed in last batch
+        else {
 
-        return true;
-
+            return rows;
+        }
+       
     }
 
     async processCacheData(subscriberId) {
@@ -134,42 +137,39 @@ class MongoBO {
 
             if (cachedRows.status && cachedRows.rows.length > 0) {
 
-                //pre validation
-                if (this.dataProcessValidation(cachedRows.rows, timestamps.from)) {
+                //console.log(cachedRows.rows);
 
-                    //console.log(cachedRows.rows);
+                //let iterator = new Iterator();
+                //iterator.setDataSource(cachedRows.rows);
+                //let result = [];
 
-                    //let iterator = new Iterator();
-                    //iterator.setDataSource(cachedRows.rows);
-                    //let result = [];
+                //while (iterator.hasNext()) {
+                //    let data = iterator.next();
+                //    console.log(data.xml);
+                //    let msgbuilder = new MessageModelBuilder();
+                //    try {
+                //        let msg = await msgbuilder.createMessage(data);
+                //        let body = msg.getMessageBody();
+                //        if (body != null || body) {
+                //            console.log(body);
+                //            body = await this.decryptMessageBody(body);
+                //            body = await this.encryptMessageBody(body);
+                //            msg.setMessageBody(body);
+                //        }
+                //        console.log(msg);
+                //        result.push(msg);
+                //    }
+                //    catch (err) {
+                //        console.log('logging error: ');
+                //        console.log(err);
+                //        console.log('error reported while parsing xml');
+                //    }
+                //}
+                //return result;
 
-                    //while (iterator.hasNext()) {
-                    //    let data = iterator.next();
-                    //    console.log(data.xml);
-                    //    let msgbuilder = new MessageModelBuilder();
-                    //    try {
-                    //        let msg = await msgbuilder.createMessage(data);
-                    //        let body = msg.getMessageBody();
-                    //        if (body != null || body) {
-                    //            console.log(body);
-                    //            body = await this.decryptMessageBody(body);
-                    //            body = await this.encryptMessageBody(body);
-                    //            msg.setMessageBody(body);
-                    //        }
-                    //        console.log(msg);
-                    //        result.push(msg);
-                    //    }
-                    //    catch (err) {
-                    //        console.log('logging error: ');
-                    //        console.log(err);
-                    //        console.log('error reported while parsing xml');
-                    //    }
-                    //}
-                    //return result;
+                await this.saveJobLog(subscriberId, timestamps.to);
+                return true;
 
-                    await this.saveJobLog(subscriberId, timestamps.to);
-                    return true;
-                }
             }
         }
     }
