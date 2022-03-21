@@ -154,7 +154,7 @@ class MongoBO {
                     try {
 
                         // complete rowobj formation based on different message type
-                        let txtmodelObj = await msgbuilder.createTextModel(data);
+                        let txtmodelObj = await msgbuilder.createMessageModel(data);
 
                         //body extraction and processing
                         var body = txtmodelObj.messageText;

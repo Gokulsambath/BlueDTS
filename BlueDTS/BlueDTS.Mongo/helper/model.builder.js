@@ -16,7 +16,7 @@ class MessageModelBuilder {
     constructor() {
     }
 
-    async createTextModel(data) {
+    async createMessageModel(data) {
 
         var result = await this.createXMLContent(data.xml);
         var msgModel = new MsgModel.Message();
