@@ -1,116 +1,330 @@
+"use strict";
+
 /* *****************************************************************************************************************
-    Class       : xml model
-    Description : represents message content
+    Name        : log Model
+    Description : Entity to hold log data related to data transfer transactions.
+
     Author      : Adarsh Dubey
-    Created On  : 14/02/2022
+    Created On  : 20/02/2022
+
     Modified By : NA
     Modified On : NA
     Reason      : NA
 ***************************************************************************************************************** */
-const xml2js = require("xml2js")
 
 class Message {
+
+    receivers = [];
+    attachmentSize = null;
+    chatType = null;
+    subscriberId = null;
+    dateTime = null;
+    linkType = null;
+    linkedMessageId = null;
+    messageAction = null;
+    messageAlignment = null;
+    messageHolderId = null;
+    messageText = null;
+    messageType = null;
+    orgnizationId = null;
+    overallMsgStatus = null;
+    receiverXmppId = null;
+    senderXmppId = null;
+    xmppGroupId = null;
+    userAgent = null;
+    xmppChatId = null;
+    xmppMessageId = null;
+    size = null;
+    messageId = null;
+    sender = new Sender();
+    reciever = [];
+
     constructor() {
     }
-    //setters
-    setContent(xmlContent) {
-        //replace content with xml
-        this.content = xmlContent;
-        //return this;
+    /**************************SETTERS******************************************************************/
+
+    set setAttachmentSize(attachmentSize) {
+        this.attachmentSize = attachmentSize;
     }
 
-    getContent() {
-        return this.content;
+    set setChatType(chatType) {
+        this.chatType = chatType;
     }
 
-    setUsername(username) {
-        this.username = username;
-        //return this;
+    set setDateTime(datetime) {
+        this.dateTime = datetime;
     }
 
-    getUsername() {
-        return this.username;
+    set setLinkType(linktype) {
+        this.linkType = linktype;
     }
 
-    setTimestamp(t) {
-        this.timestamp = t;
-        //return this;
+    set setLinkedMessageid(linkedMessageId) {
+        this.linkedMessageId = linkedMessageId;
     }
 
-    getTimestamp() {
-        return this.timestamp;
+    set setMessageAction(messageAction) {
+        this.messageAction = messageAction;
     }
 
-    setPeer(peer) {
-        this.peer = peer;
-        //return this;
+    set setMessageAlignment(messageAlignment) {
+        this.messageAlignment = messageAlignment;
     }
 
-    getPeer() {
-        return this.peer;
+    set setMessageHolderId(messageHolderId) {
+        this.messageHolderId = messageHolderId;
     }
 
-    setBarePeer(barepeer) {
-        this.barepeer = barepeer;
-        //return this;
+    set setMessageText(messageText) {
+        this.messageText = messageText;
     }
 
-    getBarePeer() {
-        return this.barepeer;
+    set setMessageType(messageType) {
+        this.messageType = messageType;
     }
 
-    setTxt(txt) {
-        this.txt = txt;
-        //return this;
+    set setOrgnizationId(orgnizationId) {
+        this.orgnizationId = orgnizationId;
     }
 
-    getTxt() {
-        return this.txt;
+    set setOverallMsgStatus(overallMsgStatus) {
+        this.overallMsgStatus = overallMsgStatus;
     }
 
-    setId(id) {
-        this.id = id;
-        //return this;
+    set setReceiverXmppId(receiverXmppId) {
+        this.receiverXmppId = receiverXmppId;
     }
 
-    getId() {
-        return this.id;
+    set setSenderXmppId(senderXmppId) {
+        this.senderXmppId = senderXmppId;
+    }
+    set setXmppGroupId(xmppGroupId) {
+        this.xmppGroupId = xmppGroupId;
     }
 
-    setKind(kind) {
-        this.kind = kind;
-        //return this;
+
+    set setSender(sender) {
+        this.sender = sender;
     }
 
-    getKind() {
-        return this.kind;
+    set setSubscriberId(subscriberId) {
+        this.subscriberId = subscriberId;
     }
 
-    setNick(nick) {
-        this.nick = nick;
-        //return this;
+    set setUserAgent(userAgent) {
+        this.userAgent = userAgent;
     }
 
-    getNick() {
-        return this.nick;
+    set setXmppChatId(xmppChatId) {
+        this.xmppChatId = xmppChatId;
     }
 
-    setCreatedAt(created_at) {
-        this.created_at = created_at;
-        //return this;
+    set setXmppMessageId(xmppMessageId) {
+        this.xmppMessageId = xmppMessageId;
     }
 
-    getCreatedAt() {
-        return this.created_at;
+    set setSize(size) {
+        this.size = size;
+    }
+    set setMessageId(messageId) {
+        this.messageId = messageId;
     }
 
-    setMessageBody(body) {
-        this.content.setBody(body);
-        //return this;
+    set sender(sender) {
+        this.sender = sender;
+    }
+   
+
+    /***************************************GETTER***************************************************************/
+   
+    get getAttachmentSize() {
+        return this.size;
     }
 
-    getMessageBody() {
-        return this.content.getBody();
+    get getChatType() {
+        return this.chatType;
+    }
+
+    get getDateTime() {
+        return this.dateTime;
+    }
+
+    get getLinkType() {
+        return this.linkType;
+    }
+
+    get getLinkedMessageid() {
+        return this.linkedMessageId;
+    }
+
+    get getMessageAction() {
+        return this.messageAction ;
+    }
+
+    get getMessageAlignment() {
+        return this.messageAlignment ;
+    }
+
+    get getMessageHolderId() {
+        return this.messageHolderId;
+    }
+
+    get getMessageText() {
+        return this.messageText;
+    }
+
+    get getMessageType() {
+        return this.messageType;
+    }
+
+    get getOrgnizationId() {
+        return this.orgnizationId;
+    }
+
+    get getOverallMsgStatus() {
+        return this.overallMsgStatus;
+    }
+
+    get getReceiverXmppId() {
+        return this.receiverXmppId ;
+    }
+
+    get getSenderXmppId() {
+        return this.senderXmppId;
+    }
+
+    get getXmppGroupId() {
+        return this.xmppGroupId;
+    }
+
+    get getSender() {
+        return this.sender ;
+    }
+
+    get getSubscriberId() {
+        return this.subscriberId;
+    }
+
+    get getUserAgent() {
+        return this.userAgent ;
+    }
+
+    get getXmppChatId() {
+        return this.xmppChatId ;
+    }
+
+    get getXmppMessageId() {
+        return this.xmppMessageId ;
+    }
+
+    get getSize() {
+        return this.size ;
+    }
+
+    get getRecievers() {
+        return this.receivers;
+    }
+    get getMessageId() {
+        this.messageId;
+    }
+
+    get sender() {
+        return this.sender;
     }
 }
-module.exports = Message;
+
+class Sender {
+
+    deletedFlag = null;
+    forwardAllowedFlag = null;
+    senderId = null;
+    senderMsgStatus = null;
+    sentDateTime = null;
+
+    constructor() {
+    }
+
+    /**************************SETTERS******************************************************************/
+
+    set setDeletedFlag(deletedFlag) {
+        this.deletedFlag = deletedFlag;
+    }
+
+    set setForwardAllowedFlag(forwardAllowedFlag) {
+        this.forwardAllowedFlag = forwardAllowedFlag;
+    }
+
+    set setSenderId(senderId) {
+        this.senderId = senderId;
+    }
+
+    set setsenderMsgStatus(senderMsgStatus) {
+        this.senderMsgStatus = senderMsgStatus;
+    }
+
+    set setSentDateTime(sentDateTime) {
+        this.sentDateTime = sentDateTime;
+    }
+
+    /***************************************GETTER***************************************************************/
+
+    get setDeletedFlag() {
+        this.deletedFlag;
+    }
+
+    get setForwardAllowedFlag() {
+        this.forwardAllowedFlag;
+    }
+
+    get setSenderId() {
+        this.senderId;
+    }
+
+    get setsenderMsgStatus() {
+        this.senderMsgStatus;
+    }
+
+    get setSentDateTime() {
+        this.sentDateTime;
+    }
+}
+
+class Reciever {
+
+    deletedFlag = null;
+    deliveredDateTime = null;
+    receiverId = null;
+    receiverMsgStatus = null;
+    tags = null;
+
+    constructor() {
+    }
+
+    /**************************SETTERS******************************************************************/
+
+    set setDeletedFlag(deletedFlag) {
+        this.deletedFlag = deletedFlag;
+    }
+
+    set setDeliveredDateTime(deliveredDateTime) {
+        this.deliveredDateTime = deliveredDateTime;
+    }
+
+    set setReceiverId(receiverId) {
+        this.receiverId = receiverId;
+    }
+
+    set setReceiverMsgStatus(receiverMsgStatus) {
+        this.receiverMsgStatus = receiverMsgStatus;
+    }
+
+    set setTags(tags) {
+        this.tags = tags;
+    }
+
+}
+
+module.exports = {
+    Message: Message,
+    Reciever: Reciever
+}

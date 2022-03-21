@@ -77,9 +77,6 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="BlueDTS.Mongo\models\message.model.js" />
-    <Content Include="BlueDTS.Mongo\models\reciever.model.js" />
-    <Content Include="BlueDTS.Mongo\models\sender.model.js" />
-    <Content Include="BlueDTS.Mongo\models\text.model.js" />
     <Content Include="BlueDTS.Mongo\models\xmlcontent.model.js" />
     <Content Include="BlueDTS.Mongo\scheduler\schedule.mongo.js">
       <SubType>Code</SubType>

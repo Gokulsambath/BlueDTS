@@ -92,6 +92,16 @@ class XMLParser {
         }
     }
 
+    subjectExists() {
+
+        if (this.isParsed() && this.valExists(this._xmlObj['message']) && this.valExists(this._xmlObj['message']['subject'])) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     receiveTagExists() {
 
         if (this.msgExists() && this.valExists(this._xmlObj['message']['received']) ) {
@@ -211,6 +221,18 @@ class XMLParser {
             return null;
         }
         
+    }
+
+    parseSubject() {
+
+        if (this.subjectExists() && this.valExists(this._xmlObj['message']['subject'].length)
+            && this._xmlObj['message']['subject'].length >= 1) {
+            return this._xmlObj['message']['subject'][0];
+        }
+        else {
+            return null;
+        }
+
     }
 }
 module.exports = XMLParser;

@@ -7,10 +7,10 @@
     Modified On : NA
     Reason      : NA
 ***************************************************************************************************************** */
-const Message = require('../models/message.model');
-const XMLContent = require('../models/xmlcontent.model');
+var XMLContent = require('../models/xmlcontent.model');
 const XMLParser = require('../helper/xml.parser');
-const TextMsgModel = require('../models/text.model');
+var MsgModel = require('../models/message.model');
+//var SubModel = require('../models/subject.model');
 
 class MessageModelBuilder {
     constructor() {
@@ -19,38 +19,76 @@ class MessageModelBuilder {
     async createTextModel(data) {
 
         var result = await this.createXMLContent(data.xml);
-        var txtModel = new TextMsgModel();
+        var msgModel = new MsgModel.Message();
+        var reciever = new MsgModel.Reciever();
+
         if (result.success) {
             var content = result.content;
-            txtModel.subscriberId = content.getSubscriberId();
-            txtModel.receiverXmppId = content.getTo();
-            txtModel.senderXmppId = content.getFrom();
-            txtModel.xmppChatId = content.getTo();
-            txtModel.xmppMessageId = content.getId();
-            txtModel.messageText = content.getBody();
+
+            msgModel.subscriberId = content.getSubscriberId();
+            msgModel.chatType = content.getType();
+
+            //one-to-one model processing
+            if (msgModel.chatType !== null && msgModel.chatType === 'chat') {
+
+                msgModel.senderXmppId = content.getFrom();
+
+            }// group chat processing
+            else if (msgModel.chatType !== null && msgModel.chatType === 'groupchat') {
+
+                msgModel.xmppGroupId = content.getFrom();
+            }
+            else
+                msgModel.chatType = "";
+
+            //setting sender
+            {
+                msgModel.sender.deletedFlag = false;
+                msgModel.sender.forwardAllowedFlag = 0;
+                msgModel.sender.senderId = content.getFrom();
+                msgModel.sender.senderMsgStatus = 0;
+                msgModel.sender.sentDateTime = 0;
+
+            }
+
+            //setting reciever
+            {
+                reciever.deletedFlag = false;
+                reciever.deliveredDateTime = 0;
+                reciever.receiverId = content.getFrom();
+                reciever.receiverMsgStatus = 0;
+                reciever.tags = [];
+                msgModel.reciever.push(reciever);
+            }
+
+            //settings subject contents
+            {
+                var subject = JSON.parse(content.getSubject());
+
+                if (subject !== null) {
+
+                    if (subject.messageFormat === "text") {
+                        // for text message
+                    }
+
+                    msgModel.dateTime = subject.messageDateTime;                   
+                    msgModel.linkedMessageId = subject.linkedMessageId;
+                    msgModel.messageHolderId = subject.messageHolderId;
+                }
+            }
+
+            msgModel.linkType = 'NL';
+            msgModel.orgnizationId = '01';
+            msgModel.overallMsgStatus = '2';
+            msgModel.receiverXmppId = content.getTo();          
+            msgModel.xmppChatId = content.getTo();
+            msgModel.xmppMessageId = content.getId();
+            msgModel.messageText = content.getBody();
         }
-        return txtModel;
+        return msgModel;
     }
 
-    async createMessage(data) {
-
-        var msg = new Message();
-        var result = await this.createXMLContent(data.xml);
-        //setting message attributes
-        msg.setId(data.id);
-        msg.setUsername(data.username);
-        msg.setTimestamp(data.timestamp);
-        msg.setPeer(data.peer);
-        msg.setBarePeer(data.bare_peer);
-        msg.setTxt(data.txt);
-        msg.setKind(data.kind);
-        msg.setNick(data.nick);
-        msg.setCreatedAt(data.created_at);
-        if (result.success) {
-            msg.setContent(result.content);
-        }
-        return msg;
-    }
+    
 
     async createXMLContent(xml) {
 
@@ -65,6 +103,7 @@ class MessageModelBuilder {
         xmlcontent.setSubscriberId(appParser.parseSubscriberId());
         xmlcontent.setChatId(appParser.parseChatId());
         xmlcontent.setBody(appParser.parseBody());
+        xmlcontent.setSubject(appParser.parseSubject());
         return { success: status, content: xmlcontent };
     }
 }

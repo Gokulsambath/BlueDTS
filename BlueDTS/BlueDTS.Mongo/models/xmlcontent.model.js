@@ -32,6 +32,10 @@ class XMLContent {
         this.body = txt;
     }
 
+    setSubject(txt) {
+        this.subject = txt;
+    }
+
     setSubscriberId(id) {
         this.subscriberId = id;
     }
@@ -59,6 +63,10 @@ class XMLContent {
 
     getBody() {
         return this.body;
+    }
+
+    getSubject() {
+        return this.subject;
     }
 
     getSubscriberId() {
