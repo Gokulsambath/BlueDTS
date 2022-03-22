@@ -167,6 +167,9 @@ class MongoBO {
 
                             txtmodelObj.messageText = body;
 
+                            const size = new TextEncoder().encode(JSON.stringify(txtmodelObj)).length;
+                            txtmodelObj.size = size;
+
                             // here we save the finally processed row to mongo collection.
                             await this.saveArchivalRow(subscriberId, txtmodelObj);
                         }

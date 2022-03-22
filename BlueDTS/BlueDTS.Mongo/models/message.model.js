@@ -37,7 +37,9 @@ class Message {
     size = null;
     messageId = null;
     sender = new Sender();
+    attachment = new Attachment();
     reciever = [];
+    contacts = [];
 
     constructor() {
     }
@@ -98,10 +100,10 @@ class Message {
     set setSenderXmppId(senderXmppId) {
         this.senderXmppId = senderXmppId;
     }
+
     set setXmppGroupId(xmppGroupId) {
         this.xmppGroupId = xmppGroupId;
     }
-
 
     set setSender(sender) {
         this.sender = sender;
@@ -126,12 +128,17 @@ class Message {
     set setSize(size) {
         this.size = size;
     }
+
     set setMessageId(messageId) {
         this.messageId = messageId;
     }
 
-    set sender(sender) {
+    set setSender(sender) {
         this.sender = sender;
+    }
+
+    set setAttachment(attachment) {
+        this.attachment = attachment;
     }
    
 
@@ -224,12 +231,21 @@ class Message {
     get getRecievers() {
         return this.receivers;
     }
+    get getContacts() {
+        return this.contacts;
+    }
+
+
     get getMessageId() {
         this.messageId;
     }
 
-    get sender() {
+    get getSender() {
         return this.sender;
+    }
+
+    get getAttachment() {
+        return this.attachment;
     }
 }
 
@@ -324,7 +340,113 @@ class Reciever {
 
 }
 
+class Attachment {
+
+    caption = null;
+    fileName = null;
+    fileType = null;
+    storageBlobURL = null;
+    storageRefId = null;
+    thumbnailUrl = null;
+
+    constructor() {
+    }
+
+    /**************************SETTERS******************************************************************/
+
+    set setCaption(caption) {
+        this.caption = caption;
+    }
+
+    set setFileName(fileName) {
+        this.fileName = fileName;
+    }
+
+    set setFileType(fileType) {
+        this.fileType = fileType;
+    }
+
+    set setStorageBlobURL(storageBlobURL) {
+        this.storageBlobURL = storageBlobURL;
+    }
+
+    set setStorageRefId(storageRefId) {
+        this.storageRefId = storageRefId;
+    }
+
+    set setThumbnailUrl(thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
+    }
+
+
+
+    /**************************GETTERS******************************************************************/
+
+    get setCaption() {
+        this.caption;
+    }
+
+    get setFileName() {
+        this.fileName;
+    }
+
+    get setFileType() {
+        this.fileType;
+    }
+
+    get setStorageBlobURL() {
+        this.storageBlobURL;
+    }
+
+    get setStorageRefId() {
+        this.storageRefId;
+    }
+
+    get setThumbnailUrl() {
+        this.thumbnailUrl;
+    }
+}
+
+class Contacts {
+
+    contactName = null;
+    contactNumber = null;
+    contactPic = null;
+ 
+    constructor() {
+    }
+
+    /**************************SETTERS******************************************************************/
+
+    set setcontactName(contactName) {
+        this.contactName = contactName;
+    }
+
+    set setcontactNumber(contactNumber) {
+        this.contactNumber = contactNumber;
+    }
+
+    set setcontactPic(contactPic) {
+        this.contactPic = contactPic;
+    }
+
+    /**************************GETTERS******************************************************************/
+
+    get getcontactName() {
+        this.contactName;
+    }
+
+    get getcontactNumber() {
+        this.contactNumber;
+    }
+
+    get getcontactPic() {
+        this.contactPic;
+    }
+}
+
 module.exports = {
     Message: Message,
-    Reciever: Reciever
+    Reciever: Reciever,
+    Contacts: Contacts
 }

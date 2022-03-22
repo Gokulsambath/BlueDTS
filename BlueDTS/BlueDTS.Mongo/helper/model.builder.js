@@ -10,7 +10,6 @@
 var XMLContent = require('../models/xmlcontent.model');
 const XMLParser = require('../helper/xml.parser');
 var MsgModel = require('../models/message.model');
-//var SubModel = require('../models/subject.model');
 
 class MessageModelBuilder {
     constructor() {
@@ -70,7 +69,30 @@ class MessageModelBuilder {
                     if (subject.messageFormat === "text") {
                         // for text message
                     }
+                    else if (subject.messageFormat === "audio") {
 
+                        msgModel.attachment.caption = subject.caption;
+                        msgModel.attachment.fileName = subject.fileName;
+                        msgModel.attachment.fileType = subject.fileType;
+                        msgModel.attachment.storageRefId = subject.storageRefId;
+                        msgModel.attachment.storageBlobURL = subject.storageBlobURL;
+                        msgModel.attachment.thumbnailUrl = subject.thumbnailUrl;
+                        msgModel.attachmentSize = subject.attachmentSize;
+                    }
+                    else if (subject.messageFormat === "contact") {
+
+                        msgModel.attachmentSize = subject.attachmentSize;
+                        for (const con of subject.contacts) {
+
+                            var contact = new MsgModel.Contacts();
+                            contact.contactName = con.contactName;
+                            contact.contactNumber = con.contactNumber;
+                            contact.contactPic = con.contactPic;
+                            msgModel.contacts.push(contact);
+                        }
+                    }
+
+                    msgModel.messageType = subject.messageFormat;
                     msgModel.dateTime = subject.messageDateTime;                   
                     msgModel.linkedMessageId = subject.linkedMessageId;
                     msgModel.messageHolderId = subject.messageHolderId;
