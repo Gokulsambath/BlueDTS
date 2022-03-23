@@ -166,15 +166,15 @@ class MongoBO {
                                 body = await this.decryptMessageBody(txtmodelObj.subscriberId, body, txtmodelObj.receiverXmppId, txtmodelObj.senderXmppId);
                                 body = await this.encryptMessageBody(txtmodelObj.subscriberId, body);
 
-                                txtmodelObj.messageText = body;
-
-                                const size = new TextEncoder().encode(JSON.stringify(txtmodelObj)).length;
-                                txtmodelObj.size = size;
-
-                                // here we save the finally processed row to mongo collection.
-                                await this.saveArchivalRow(subscriberId, txtmodelObj);
+                                txtmodelObj.messageText = body;                               
                             }
                         }
+
+                        const size = new TextEncoder().encode(JSON.stringify(txtmodelObj)).length;
+                        txtmodelObj.size = size;
+
+                        // here we save the finally processed row to mongo collection.
+                        await this.saveArchivalRow(subscriberId, txtmodelObj);
                     }
                     catch (err) {
                         console.log(err);
@@ -183,6 +183,7 @@ class MongoBO {
                 }
                 // here we update the timestamp when all rows are processed successfully.
                 await this.saveJobLog(subscriberId, timestamps.to);
+                return true;
             }
         }
     }

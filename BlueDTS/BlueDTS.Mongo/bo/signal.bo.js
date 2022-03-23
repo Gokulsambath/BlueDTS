@@ -62,9 +62,7 @@ class SignalBO {
             // rejects if the identityKey differs from a previously seen identity for this
             // address.
             var plaintextbuffer = await sessionCipher.decryptPreKeyWhisperMessage(bufferctext);
-            // handle plaintext ArrayBuffer
-            console.log("Decrypted Text buffer", plaintextbuffer);
-
+           
             // level 1 decoding
             var plaintext = Buffer.from(plaintextbuffer, "base64").toString("utf8");
             //level 2 decoding
