@@ -31,6 +31,7 @@ class Message {
     receiverXmppId = null;
     senderXmppId = null;
     xmppGroupId = null;
+    locationString = null;
     userAgent = null;
     xmppChatId = null;
     xmppMessageId = null;
@@ -127,6 +128,10 @@ class Message {
 
     set setSize(size) {
         this.size = size;
+    }
+
+    set setLocationString(locationString) {
+        this.locationString = locationString;
     }
 
     set setMessageId(messageId) {
@@ -227,14 +232,18 @@ class Message {
     get getSize() {
         return this.size ;
     }
+    get getlocationString() {
+        return this.locationString;
+    }
+
 
     get getRecievers() {
         return this.receivers;
     }
+
     get getContacts() {
         return this.contacts;
     }
-
 
     get getMessageId() {
         this.messageId;

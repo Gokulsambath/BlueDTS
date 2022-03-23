@@ -1,7 +1,7 @@
 /* *****************************************************************************************************************
     Class       : XMLParser
     Description : Pefroms Application specific parsing
-    Author      :
+    Author      : Adarsh Dubey
     Created On  : 14/02/2022
     Modified By : NA
     Modified On : NA
@@ -153,6 +153,17 @@ class XMLParser {
 
          if (this.fromExists()) {
              return this._xmlObj['message']['$']['from'].split('/')[0];
+        }
+        else {
+            return null;
+        }
+    }
+
+
+    parseUserAgent() {
+
+        if (this.fromExists()) {
+            return this._xmlObj['message']['$']['from'].split('/')[1];
         }
         else {
             return null;

@@ -158,20 +158,22 @@ class MongoBO {
 
                         //body extraction and processing
                         var body = txtmodelObj.messageText;
-                        if (body != null || body !== undefined || body !== "") {
-                            
-                            //cryptographic activities
-                            body = body.replace(/\s/g, '');
-                            body = await this.decryptMessageBody(txtmodelObj.subscriberId, body, txtmodelObj.receiverXmppId, txtmodelObj.senderXmppId);
-                            body = await this.encryptMessageBody(txtmodelObj.subscriberId, body);
+                        if (txtmodelObj.messageType === "text" || txtmodelObj.messageType === "url") {
+                            if (body != null || body !== undefined || body !== "") {
 
-                            txtmodelObj.messageText = body;
+                                //cryptographic activities
+                                body = body.replace(/\s/g, '');
+                                body = await this.decryptMessageBody(txtmodelObj.subscriberId, body, txtmodelObj.receiverXmppId, txtmodelObj.senderXmppId);
+                                body = await this.encryptMessageBody(txtmodelObj.subscriberId, body);
 
-                            const size = new TextEncoder().encode(JSON.stringify(txtmodelObj)).length;
-                            txtmodelObj.size = size;
+                                txtmodelObj.messageText = body;
 
-                            // here we save the finally processed row to mongo collection.
-                            await this.saveArchivalRow(subscriberId, txtmodelObj);
+                                const size = new TextEncoder().encode(JSON.stringify(txtmodelObj)).length;
+                                txtmodelObj.size = size;
+
+                                // here we save the finally processed row to mongo collection.
+                                await this.saveArchivalRow(subscriberId, txtmodelObj);
+                            }
                         }
                     }
                     catch (err) {

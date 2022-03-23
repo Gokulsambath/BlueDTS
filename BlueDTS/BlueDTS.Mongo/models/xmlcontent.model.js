@@ -35,6 +35,10 @@ class XMLContent {
     setSubject(txt) {
         this.subject = txt;
     }
+    setUserAgent(txt) {
+        this.useragent = txt;
+    }
+
 
     setSubscriberId(id) {
         this.subscriberId = id;
@@ -63,6 +67,10 @@ class XMLContent {
 
     getBody() {
         return this.body;
+    }
+
+    getUserAgent() {
+        return this.useragent;
     }
 
     getSubject() {

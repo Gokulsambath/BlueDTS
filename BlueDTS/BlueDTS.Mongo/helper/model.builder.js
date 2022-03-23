@@ -1,7 +1,7 @@
 /* *****************************************************************************************************************
     Class       : ModelBuilder
     Description : Responsible for creating message
-    Author      :
+    Author      : Adarsh Dubey
     Created On  : 14/02/2022
     Modified By : NA
     Modified On : NA
@@ -66,10 +66,12 @@ class MessageModelBuilder {
 
                 if (subject !== null) {
 
-                    if (subject.messageFormat === "text") {
-                        // for text message
+                    if (subject.messageFormat === "text" || subject.messageFormat === "url") {
+                        msgModel.messageText = content.getBody();
                     }
-                    else if (subject.messageFormat === "audio") {
+                    else if (subject.messageFormat === "image" || subject.messageFormat === "video" || subject.messageFormat === "audio"
+                        || subject.messageFormat === "doc" || subject.messageFormat === "excel" || subject.messageFormat === "ppt"
+                        || subject.messageFormat === "pdf" || subject.messageFormat === "video" || subject.messageFormat === "recorded-audio") {
 
                         msgModel.attachment.caption = subject.caption;
                         msgModel.attachment.fileName = subject.fileName;
@@ -78,10 +80,13 @@ class MessageModelBuilder {
                         msgModel.attachment.storageBlobURL = subject.storageBlobURL;
                         msgModel.attachment.thumbnailUrl = subject.thumbnailUrl;
                         msgModel.attachmentSize = subject.attachmentSize;
+                        msgModel.sender.forwardAllowedFlag = false;
+                        msgModel.messageText = subject.storageRefId;
                     }
                     else if (subject.messageFormat === "contact") {
 
                         msgModel.attachmentSize = subject.attachmentSize;
+                        msgModel.sender.forwardAllowedFlag = false;
                         for (const con of subject.contacts) {
 
                             var contact = new MsgModel.Contacts();
@@ -91,6 +96,12 @@ class MessageModelBuilder {
                             msgModel.contacts.push(contact);
                         }
                     }
+                    else if (subject.messageFormat === "location") {
+                        msgModel.locationString = subject.location;
+                        msgModel.messageText = subject.location;
+                        msgModel.sender.forwardAllowedFlag = false;
+                    }
+
 
                     msgModel.messageType = subject.messageFormat;
                     msgModel.dateTime = subject.messageDateTime;                   
@@ -99,13 +110,23 @@ class MessageModelBuilder {
                 }
             }
 
-            msgModel.linkType = 'NL';
+            if (subject.messageFormat === "forward") {
+                msgModel.linkType = 'FW';
+            }
+            else if (subject.messageFormat === "reply") {
+                msgModel.linkType = 'RP';
+            }
+            else
+                msgModel.linkType = 'NL';
+            
             msgModel.orgnizationId = '01';
             msgModel.overallMsgStatus = '2';
+            msgModel.messageAction = 'Send';
+            msgModel.messageAlignment = 'R';
+            msgModel.userAgent = content.getUserAgent();
             msgModel.receiverXmppId = content.getTo();          
             msgModel.xmppChatId = content.getTo();
             msgModel.xmppMessageId = content.getId();
-            msgModel.messageText = content.getBody();
         }
         return msgModel;
     }
@@ -126,6 +147,7 @@ class MessageModelBuilder {
         xmlcontent.setChatId(appParser.parseChatId());
         xmlcontent.setBody(appParser.parseBody());
         xmlcontent.setSubject(appParser.parseSubject());
+        xmlcontent.setUserAgent(appParser.parseUserAgent());
         return { success: status, content: xmlcontent };
     }
 }

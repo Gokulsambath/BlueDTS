@@ -34,12 +34,6 @@
     <Content Include="BlueDTS.Library\crypto\protocol_store.js">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="BlueDTS.Library\jsonprocessor\jsonFormation.js">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="BlueDTS.Library\dataparser\xmlparser.js">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="BlueDTS.Mongo\bo\config\appDefault.bo.js">
       <SubType>Code</SubType>
     </Content>
@@ -69,9 +63,6 @@
     </Content>
     <Content Include="BlueDTS.Mongo\helper\iterator.js" />
     <Content Include="BlueDTS.Mongo\helper\model.builder.js" />
-    <Content Include="BlueDTS.Mongo\helper\model.builder.old.js">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="BlueDTS.Mongo\helper\xml.parser.js" />
     <Content Include="BlueDTS.Mongo\models\log.model.js">
       <SubType>Code</SubType>
@@ -97,7 +88,6 @@
     <Content Include="BlueDTS.SQL\dal\appdefault.dal.js" />
     <Content Include="BlueDTS.SQL\repository\repository.js" />
     <Content Include="BlueDTS.SQL\repository\repository.singleton.js" />
-    <Content Include="BlueDTS.SQL\test.js" />
     <Content Include="BlueDTS.SQL\triggers\appTrigger.js">
       <SubType>Code</SubType>
     </Content>
@@ -252,8 +242,6 @@
     <Content Include="Signal\src\session_record.js" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BlueDTS.Library\dataparser\" />
-    <Folder Include="BlueDTS.Library\jsonprocessor\" />
     <Folder Include="BlueDTS.Library\crypto\" />
     <Folder Include="BlueDTS.Mongo\bo\" />
     <Folder Include="BlueDTS.Mongo\bo\config\" />
