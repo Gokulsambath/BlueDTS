@@ -148,6 +148,7 @@ class MongoBO {
                 iterator.setDataSource(cachedRows.rows);
                 let result = [];
 
+                //cache rows processing
                 while (iterator.hasNext()) {
                     let data = iterator.next();
                     let msgbuilder = new MessageModelBuilder();
@@ -174,18 +175,19 @@ class MongoBO {
                         txtmodelObj.size = size;
 
                         // here we save the finally processed row to mongo collection.
-                        await this.saveArchivalRow(subscriberId, txtmodelObj);
+                        await this.saveArchivalRow(txtmodelObj.subscriberId, txtmodelObj);
                     }
                     catch (err) {
                         console.log(err);
                         continue;//log the error and continue processing the next row.
                     }
-                }
-                // here we update the timestamp when all rows are processed successfully.
-                await this.saveJobLog(subscriberId, timestamps.to);
-                return true;
+                }           
             }
+
+            // here we update the timestamp when all rows are processed successfully.
+            await this.saveJobLog(subscriberId, timestamps.to);
         }
+        return true;
     }
 
     async encryptMessageBody(subscriberId, plaintext) {
