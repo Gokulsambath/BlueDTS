@@ -14,6 +14,7 @@ const DTSProcessLogCollectionId = "DTSProcessLog";
 const EjabberdArchivalCollectionId = "EjabberdArchival";
 const SubscriberCollectionId = "Subscriber";
 const PreKeysCollectionId = "PreKeys";
+const DTSFailureLogCollectionId = "DTSFailureLog";
 
 var DBConnPool = require('../config/dbconnection');
 
@@ -25,6 +26,7 @@ class MongoDAO {
     _ejabberdArchivalCollection = null;
     _subscriberCollection = null;
     _preKeysCollection = null;
+    _dTSFailureLogCollection = null;
 
 
     constructor() {
@@ -38,6 +40,7 @@ class MongoDAO {
         this._ejabberdArchivalCollection = await this._dbMongo.collection(EjabberdArchivalCollectionId);
         this._subscriberCollection = await this._dbMongo.collection(SubscriberCollectionId);
         this._preKeysCollection = await this._dbMongo.collection(PreKeysCollectionId);
+        this._dTSFailureLogCollection = await this._dbMongo.collection(DTSFailureLogCollectionId);
     }
 
     /* ***************************** GETTERS & SETTERS ********************************************* */
@@ -89,6 +92,14 @@ class MongoDAO {
         this._preKeysCollection = preKeysCollection;
     }
 
+    get dTSFailureLogCollection() {
+        return this._dTSFailureLogCollection;
+    }
+
+    set dTSFailureLogCollection(dTSFailureLogCollection) {
+        this._dTSFailureLogCollection = dTSFailureLogCollection;
+    }
+
     /* ************************** MONGODAL CRUD ******************************************* */
 
     async createCacheData(dbConfig, newRow) {
@@ -121,6 +132,23 @@ class MongoDAO {
             findFilter.timestamp = { $gte: fromTS, $lt: toTS };
           
             var foundItems = await this._cacheCollection.find(findFilter).toArray();
+
+            result = { status: true, rows: foundItems };
+        }
+        catch (err) {
+            result = { status: false, result: err };
+        }
+        return result;
+    }
+
+    async getCacheData(dbConfig, toTS, fromTS) {
+        var result = null;
+
+        try {
+
+            if (this._cacheCollection === null) { await this.initializeContainer(dbConfig); }
+
+            var foundItems = await this._cacheCollection.find().toArray();
 
             result = { status: true, rows: foundItems };
         }
@@ -247,6 +275,30 @@ class MongoDAO {
                 result = { status: true, result: foundItem };
             else
                 result = { status: false, subscriberKey: null };
+        }
+        catch (err) {
+            result = { status: false, result: err };
+        }
+        return result;
+    }
+
+    async saveFailureLog(dbConfig, row) {
+        var result = null;
+        var objOutput = { RowId: null };
+
+        try {
+            if (this._dTSFailureLogCollection === null) { await this.initializeContainer(dbConfig); }
+            this._dTSFailureLogCollection.upsert = true;
+
+
+            // inserting the failure row
+            var cacheResult = await this._dTSFailureLogCollection.insertOne(row);
+
+            objOutput.RowId = cacheResult.insertedId.toString();
+
+            var updateId = await this._dTSProcessLogCollection.updateOne({ _id: cacheResult.insertedId }, { $set: { rowId: objOutput.RowId } });
+
+            result = { status: true, result: objOutput };
         }
         catch (err) {
             result = { status: false, result: err };

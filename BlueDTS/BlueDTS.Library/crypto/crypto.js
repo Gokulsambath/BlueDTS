@@ -28,10 +28,26 @@ class CryptoLib {
             result = cryptLib.encryptPlainTextWithRandomIV(message, key);
         }
         catch (err) {
-            result = "";
+            console.log(err);
+            throw new Error('error encrypting to hash');
         }
 
         return result;
+    }
+
+    decryptToMessage(message, key) {
+
+        var result = null;
+        try {
+            result = cryptLib.decryptCipherTextWithRandomIV(message, key);
+        }
+        catch (err) {
+            console.log(err);
+            throw new Error('error decrypting to text');
+        }
+        if (!result) result = message;
+        return result;
+
     }
 
     base64ToArrayBuffer = (base64) => {

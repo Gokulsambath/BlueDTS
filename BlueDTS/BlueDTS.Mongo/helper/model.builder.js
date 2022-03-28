@@ -17,118 +17,125 @@ class MessageModelBuilder {
 
     async createMessageModel(data) {
 
-        var result = await this.createXMLContent(data.xml);
-        var msgModel = new MsgModel.Message();
-        var reciever = new MsgModel.Reciever();
+        try {
 
-        if (result.success) {
-            var content = result.content;
+            var result = await this.createXMLContent(data.xml);
+            var msgModel = new MsgModel.Message();
+            var reciever = new MsgModel.Reciever();
 
-            msgModel.subscriberId = content.getSubscriberId();
-            msgModel.chatType = content.getType();
+            if (result.success) {
+                var content = result.content;
 
-            //one-to-one model processing
-            if (msgModel.chatType !== null && msgModel.chatType === 'chat') {
+                msgModel.subscriberId = content.getSubscriberId();
+                msgModel.chatType = content.getType();
 
-                msgModel.senderXmppId = content.getFrom();
+                //one-to-one model processing
+                if (msgModel.chatType !== null && msgModel.chatType === 'chat') {
 
-            }// group chat processing
-            else if (msgModel.chatType !== null && msgModel.chatType === 'groupchat') {
+                    msgModel.senderXmppId = content.getFrom();
 
-                msgModel.xmppGroupId = content.getFrom();
-            }
-            else
-                msgModel.chatType = "";
+                }// group chat processing
+                else if (msgModel.chatType !== null && msgModel.chatType === 'groupchat') {
 
-            //setting sender
-            {
-                msgModel.sender.deletedFlag = false;
-                msgModel.sender.forwardAllowedFlag = 0;
-                msgModel.sender.senderId = content.getFrom();
-                msgModel.sender.senderMsgStatus = 0;
-                msgModel.sender.sentDateTime = 0;
-
-            }
-
-            //setting reciever
-            {
-                reciever.deletedFlag = false;
-                reciever.deliveredDateTime = 0;
-                reciever.receiverId = content.getFrom();
-                reciever.receiverMsgStatus = 0;
-                reciever.tags = [];
-                msgModel.reciever.push(reciever);
-            }
-
-            //settings subject contents
-            {
-                var subject = JSON.parse(content.getSubject());
-
-                if (subject !== null) {
-
-                    if (subject.messageFormat === "text" || subject.messageFormat === "url") {
-                        msgModel.messageText = content.getBody();
-                    }
-                    else if (subject.messageFormat === "image" || subject.messageFormat === "video" || subject.messageFormat === "audio"
-                        || subject.messageFormat === "doc" || subject.messageFormat === "excel" || subject.messageFormat === "ppt"
-                        || subject.messageFormat === "pdf" || subject.messageFormat === "video" || subject.messageFormat === "recorded-audio") {
-
-                        msgModel.attachment.caption = subject.caption;
-                        msgModel.attachment.fileName = subject.fileName;
-                        msgModel.attachment.fileType = subject.fileType;
-                        msgModel.attachment.storageRefId = subject.storageRefId;
-                        msgModel.attachment.storageBlobURL = subject.storageBlobURL;
-                        msgModel.attachment.thumbnailUrl = subject.thumbnailUrl;
-                        msgModel.attachmentSize = subject.attachmentSize;
-                        msgModel.sender.forwardAllowedFlag = false;
-                        msgModel.messageText = subject.storageRefId;
-                    }
-                    else if (subject.messageFormat === "contact") {
-
-                        msgModel.attachmentSize = subject.attachmentSize;
-                        msgModel.sender.forwardAllowedFlag = false;
-                        for (const con of subject.contacts) {
-
-                            var contact = new MsgModel.Contacts();
-                            contact.contactName = con.contactName;
-                            contact.contactNumber = con.contactNumber;
-                            contact.contactPic = con.contactPic;
-                            msgModel.contacts.push(contact);
-                        }
-                    }
-                    else if (subject.messageFormat === "location") {
-                        msgModel.locationString = subject.location;
-                        msgModel.messageText = subject.location;
-                        msgModel.sender.forwardAllowedFlag = false;
-                    }
-
-
-                    msgModel.messageType = subject.messageFormat;
-                    msgModel.dateTime = subject.messageDateTime;                   
-                    msgModel.linkedMessageId = subject.linkedMessageId;
-                    msgModel.messageHolderId = subject.messageHolderId;
+                    msgModel.xmppGroupId = content.getFrom();
                 }
-            }
+                else
+                    msgModel.chatType = "";
 
-            if (subject.messageFormat === "forward") {
-                msgModel.linkType = 'FW';
+                //setting sender
+                {
+                    msgModel.sender.deletedFlag = false;
+                    msgModel.sender.forwardAllowedFlag = 0;
+                    msgModel.sender.senderId = content.getFrom();
+                    msgModel.sender.senderMsgStatus = 0;
+                    msgModel.sender.sentDateTime = 0;
+
+                }
+
+                //setting reciever
+                {
+                    reciever.deletedFlag = false;
+                    reciever.deliveredDateTime = 0;
+                    reciever.receiverId = content.getFrom();
+                    reciever.receiverMsgStatus = 0;
+                    reciever.tags = [];
+                    msgModel.reciever.push(reciever);
+                }
+
+                //settings subject contents
+                {
+                    var subject = JSON.parse(content.getSubject());
+
+                    if (subject !== null) {
+
+                        if (subject.messageFormat === "text" || subject.messageFormat === "url") {
+                            msgModel.messageText = content.getBody();
+                        }
+                        else if (subject.messageFormat === "image" || subject.messageFormat === "video" || subject.messageFormat === "audio"
+                            || subject.messageFormat === "doc" || subject.messageFormat === "excel" || subject.messageFormat === "ppt"
+                            || subject.messageFormat === "pdf" || subject.messageFormat === "video" || subject.messageFormat === "recorded-audio") {
+
+                            msgModel.attachment.caption = subject.caption;
+                            msgModel.attachment.fileName = subject.fileName;
+                            msgModel.attachment.fileType = subject.fileType;
+                            msgModel.attachment.storageRefId = subject.storageRefId;
+                            msgModel.attachment.storageBlobURL = subject.storageBlobURL;
+                            msgModel.attachment.thumbnailUrl = subject.thumbnailUrl;
+                            msgModel.attachmentSize = subject.attachmentSize;
+                            msgModel.sender.forwardAllowedFlag = false;
+                            msgModel.messageText = subject.storageRefId;
+                        }
+                        else if (subject.messageFormat === "contact") {
+
+                            msgModel.attachmentSize = subject.attachmentSize;
+                            msgModel.sender.forwardAllowedFlag = false;
+                            for (const con of subject.contacts) {
+
+                                var contact = new MsgModel.Contacts();
+                                contact.contactName = con.contactName;
+                                contact.contactNumber = con.contactNumber;
+                                contact.contactPic = con.contactPic;
+                                msgModel.contacts.push(contact);
+                            }
+                        }
+                        else if (subject.messageFormat === "location") {
+                            msgModel.locationString = subject.location;
+                            msgModel.messageText = subject.location;
+                            msgModel.sender.forwardAllowedFlag = false;
+                        }
+
+
+                        msgModel.messageType = subject.messageFormat;
+                        msgModel.dateTime = subject.messageDateTime;
+                        msgModel.linkedMessageId = subject.linkedMessageId;
+                        msgModel.messageHolderId = subject.messageHolderId;
+
+                        if (subject.messageFormat === "forward") {
+                            msgModel.linkType = 'FW';
+                        }
+                        else if (subject.messageFormat === "reply") {
+                            msgModel.linkType = 'RP';
+                        }
+                        else
+                            msgModel.linkType = 'NL';
+                    }
+                }
+
+                msgModel.orgnizationId = '01';
+                msgModel.overallMsgStatus = '2';
+                msgModel.messageAction = 'Send';
+                msgModel.messageAlignment = 'R';
+                msgModel.userAgent = content.getUserAgent();
+                msgModel.receiverXmppId = content.getTo();
+                msgModel.xmppChatId = content.getTo();
+                msgModel.xmppMessageId = content.getId();
             }
-            else if (subject.messageFormat === "reply") {
-                msgModel.linkType = 'RP';
-            }
-            else
-                msgModel.linkType = 'NL';
-            
-            msgModel.orgnizationId = '01';
-            msgModel.overallMsgStatus = '2';
-            msgModel.messageAction = 'Send';
-            msgModel.messageAlignment = 'R';
-            msgModel.userAgent = content.getUserAgent();
-            msgModel.receiverXmppId = content.getTo();          
-            msgModel.xmppChatId = content.getTo();
-            msgModel.xmppMessageId = content.getId();
+            return msgModel;
         }
-        return msgModel;
+        catch (err) {
+            console.log(err);
+            throw new Error('error parsing ejabberd row to message model');
+        }
     }
 
     

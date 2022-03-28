@@ -72,7 +72,7 @@ class SignalBO {
             
         } catch (error) {
             console.log(error);
-            return { "status": false, result: "" };
+            throw new Error('error decrypting ciphertext to plaintext using signal');
         }
     }
 

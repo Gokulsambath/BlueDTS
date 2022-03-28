@@ -41,6 +41,17 @@ class MongoDAL {
         return result;
     }
 
+    async fetchCacheRows(subscriberId) {
+        var result = {};
+
+        //to do :logic to add the mongoserver db based on subscriberid
+
+        var dbmongo = new DBMongo();
+        var dbConfig = Config_BO.getDatabaseSettings(subscriberId);
+        result = await dbmongo.getCacheData(dbConfig);
+        return result;
+    }
+
     async fetchSubscriberKey(subscriberId) {
         var result = {};
 
@@ -93,6 +104,17 @@ class MongoDAL {
         var dbmongo = new DBMongo();
         var dbConfig = Config_BO.getDatabaseSettings(subscriberId);
         result = await dbmongo.createRowData(dbConfig, rowData);
+        return result;
+    }
+
+    async saveFailureLog(subscriberId, row) {
+        var result = {};
+
+        //to do :logic to add the mongoserver db based on subscriberid
+
+        var dbmongo = new DBMongo();
+        var dbConfig = Config_BO.getDatabaseSettings(subscriberId);
+        result = await dbmongo.saveFailureLog(dbConfig, row);
         return result;
     }
 }

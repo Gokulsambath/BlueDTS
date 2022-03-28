@@ -35,11 +35,18 @@ class MongoBO {
         return result;
     }
 
+    async getCacheData(subscriberId) {
+
+        var mongo_dal = new Mongo_DAL();
+        var result = await mongo_dal.fetchCacheRows(subscriberId);
+        return result;
+    }
+
     async decryptSubKey(subKey) {
 
         var encryptionkey = servEnv.encryptMessageKey
         var crypto_lib = new Crypto_LIB();
-        var hash = crypto_lib.encryptToHash(subKey, encryptionkey);
+        var hash = crypto_lib.decryptToMessage(subKey, encryptionkey);
         return hash;
     }
 
@@ -113,6 +120,12 @@ class MongoBO {
         await mongo_dal.saveTimestampLog(subscriberId , log);
     }
 
+    async saveFailedRowLog(subscriberId, row) {
+
+        var mongo_dal = new Mongo_DAL();
+        await mongo_dal.saveFailureLog(subscriberId, row);
+    }
+
     async saveArchivalRow(subscriberId, row) {
 
         var mongo_dal = new Mongo_DAL();
@@ -134,7 +147,7 @@ class MongoBO {
        
     }
 
-    async processCacheData(subscriberId) {
+    async processCacheDataOnTimestamp(subscriberId) {
 
         var timestamps = await this.getLatestTimestampsToProcess(subscriberId);
 
@@ -186,6 +199,63 @@ class MongoBO {
 
             // here we update the timestamp when all rows are processed successfully.
             await this.saveJobLog(subscriberId, timestamps.to);
+        }
+        return true;
+    }
+
+    async processCacheData(subscriberId) {
+
+        //fetching cached rows
+        var cachedRows = await this.getCacheData(subscriberId);
+
+        if (cachedRows.status && cachedRows.rows.length > 0) {
+
+            let iterator = new Iterator();
+            iterator.setDataSource(cachedRows.rows);
+          
+            //cache rows processing
+            while (iterator.hasNext()) {
+                let row = iterator.next();
+                let msgbuilder = new MessageModelBuilder();
+                try {
+
+                    // complete rowobj formation based on different message type
+                    let txtmodelObj = await msgbuilder.createMessageModel(row);
+
+                    //body extraction and processing
+                    var body = txtmodelObj.messageText;
+                    if (txtmodelObj.messageType === "text" || txtmodelObj.messageType === "url") {
+                        if (body != null || body !== undefined || body !== "") {
+
+                            //cryptographic activities
+                            body = body.replace(/\s/g, '');
+                            body = await this.decryptMessageBody(txtmodelObj.subscriberId, body, txtmodelObj.receiverXmppId, txtmodelObj.senderXmppId);
+                            body = await this.encryptMessageBody(txtmodelObj.subscriberId, body);
+
+                            txtmodelObj.messageText = body;
+                        }
+                    }
+
+                    const size = new TextEncoder().encode(JSON.stringify(txtmodelObj)).length;
+                    txtmodelObj.size = size;
+
+                    // here we save the finally processed row to mongo collection.
+                    await this.saveArchivalRow(txtmodelObj.subscriberId, txtmodelObj);
+                }
+                catch (err) {
+                    console.log(err);
+
+                    row.error_message = err.message;
+                    row.error_stack = err.stack;
+
+                    //saving the row in failure log
+                    await this.saveFailedRowLog(subscriberId, row);
+                }
+            }
+        }
+        else {
+
+            console.log("No rows to process in this batch.");
         }
         return true;
     }
