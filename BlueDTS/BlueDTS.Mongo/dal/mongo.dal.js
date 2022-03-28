@@ -117,6 +117,17 @@ class MongoDAL {
         result = await dbmongo.saveFailureLog(dbConfig, row);
         return result;
     }
+
+    async deleteCacheRowData(subscriberId, rowData) {
+        var result = {};
+
+        //to do :logic to add the mongoserver db based on subscriberid
+
+        var dbmongo = new DBMongo();
+        var dbConfig = Config_BO.getDatabaseSettings(subscriberId);
+        result = await dbmongo.deleteCacheData(dbConfig, rowData);
+        return result;
+    }
 }
 
 module.exports = MongoDAL;

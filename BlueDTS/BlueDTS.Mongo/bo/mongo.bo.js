@@ -28,6 +28,13 @@ class MongoBO {
         return result;
     }
 
+    async deleteCacheData(subscriberId, rowData) {
+
+        var mongo_dal = new Mongo_DAL();
+        var result = await mongo_dal.deleteCacheRowData(subscriberId, rowData);
+        return result;
+    }
+
     async getCacheData(subscriberId, to , from) {
 
         var mongo_dal = new Mongo_DAL();
@@ -251,6 +258,9 @@ class MongoBO {
                     //saving the row in failure log
                     await this.saveFailedRowLog(subscriberId, row);
                 }
+
+                //clearing the row in cache
+                await this.deleteCacheData(subscriberId, row);
             }
         }
         else {

@@ -9,28 +9,18 @@
 ***************************************************************************************************************** */
 
 var MongoBO = require("../../BlueDTS.Mongo/bo/mongo.bo")
+var servEnv = require('../../config/configServEnv');
 
 class SqlBo {
 
     constructor() { }
 
-    async storeData(subscriberId, data) {
-
-        try {
-            //todo
-        } catch (err) {
-            result = null;
-        }
-    }
-
-    setIterator(dataIterator) {
-        this.iterator = dataIterator;
-    }
-
     async uploadCacheRow(newRow) {
 
         var mongo_bo = new MongoBO();
         var subscriberId = "default";
+        //configurable retry count for row processing to store
+        newRow.retryCount = servEnv.retryCount;
         var result = await mongo_bo.pushCacheData(subscriberId, newRow);
         return result;
     }
@@ -42,37 +32,5 @@ class SqlBo {
             return false;
         return true;
     }
-
-    async initIterator() {
-        this.setIterator(new Iterator());
-        await this.iterator.setDataSource();
-    }
-
-    async processData() {
-        var messages = [];
-        await this.initIterator();
-        while (this.iterator.hasNext()) {
-            //1. code to get the data
-            let data = iterator.next();
-            //2. get xml content
-            let xml = data.xml;
-            //3. create models corresponding to the respective data
-            let result = new XMLParser().getMsgXmlContent(xml);
-            //4. add model into the array
-            let err = result[0];
-            if (!err) {
-                let msg = new Message();
-                //creating msg from result array
-                msg.setTo(result[1]);
-                msg.setFrom(result[2]);
-                msg.setType(result[3]);
-                msg.setId(result[4]);
-                messages.push(msg);
-            }
-        }
-        return messages;
-    }
-
-
 }
 module.exports = SqlBo;

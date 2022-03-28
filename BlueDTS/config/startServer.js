@@ -149,8 +149,8 @@ async function testbo() {
     var ciphertext = "AzMIlIDJBhIhBVV5uUVz83nJKVngfR3jhmPjRH90zP2ojczuZKmjcExZGiEFXHiYHeFQoTJdiMkQEcXFK+kNlfzQvxMZhlx4AoWdqXQiQjMKIQWLiiqZKJs0sfrkYbnfiRDAb0bbDsnWT2VQWkeKlxQKChAAGAAiENybPxs4JFRj9vMn8Xl5ZjoKVHXhMmOVbCgAMNyQ4wE=";
     //var plaintext = await testmodulefunc.decryptMessageBody(subscriberId, ciphertext, toId, fromId);
     var plaintext = await testmodulefunc.processCacheData(subscriberId);
-    //var ciphertext = await testmodulefunc.encryptMessageBody("61b86caeae050d28a96f640d", plaintext);
-    console.log(plaintext);
+    //var ciphertext = await testmodulefunc.encryptMessageBody("61b86caeae050d28a96f640d", "heloooo!!!");
+    //console.log(plaintext);
 };
 testbo().then(() => {
     console.log('test function executed successfully...\n');

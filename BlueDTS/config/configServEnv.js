@@ -8,7 +8,8 @@ var configServerEnv = {
     timeZone: 'Asia/Kolkata',
     defaultRegion: 'US',
     encryptMessageKey: "rqWabc29JQR",
-    timestampInterval : 10
+    timestampInterval: 10,
+    retryCount : 3
 }
 
 module.exports = configServerEnv;

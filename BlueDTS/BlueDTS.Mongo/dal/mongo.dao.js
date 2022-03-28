@@ -141,7 +141,7 @@ class MongoDAO {
         return result;
     }
 
-    async getCacheData(dbConfig, toTS, fromTS) {
+    async getCacheData(dbConfig) {
         var result = null;
 
         try {
@@ -299,6 +299,25 @@ class MongoDAO {
             var updateId = await this._dTSProcessLogCollection.updateOne({ _id: cacheResult.insertedId }, { $set: { rowId: objOutput.RowId } });
 
             result = { status: true, result: objOutput };
+        }
+        catch (err) {
+            result = { status: false, result: err };
+        }
+        return result;
+    }
+
+    async deleteCacheData(dbConfig, row) {
+
+        var result = null;
+        var findFilter = {};
+        try {
+            if (this._cacheCollection === null) { await this.initializeContainer(dbConfig); }
+            this._cacheCollection.upsert = true;
+
+            findFilter._id = row._id;
+            var cacheResult = await this._cacheCollection.deleteOne(findFilter);
+
+            result = { status: true};
         }
         catch (err) {
             result = { status: false, result: err };
