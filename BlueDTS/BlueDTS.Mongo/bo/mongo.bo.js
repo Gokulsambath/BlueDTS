@@ -248,6 +248,7 @@ class MongoBO {
 
                     // here we save the finally processed row to mongo collection.
                     await this.saveArchivalRow(txtmodelObj.subscriberId, txtmodelObj);
+                    row.retryCount = 0;
                 }
                 catch (err) {
                     console.log(err);

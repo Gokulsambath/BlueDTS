@@ -43,9 +43,10 @@ class apptriggers {
                     if (newRow.fields) {
 
                         var rowProcessStatus = Sql_BO.processRowStatus(newRow.fields);
-                        if (rowProcessStatus)
+                        if (rowProcessStatus) {
                             var result = await Sql_BO.uploadCacheRow(newRow.fields);
-                        console.log(result);
+                            console.log(result);
+                        }
                     }
                     else
                         console.log("row is not eligble to get processed");

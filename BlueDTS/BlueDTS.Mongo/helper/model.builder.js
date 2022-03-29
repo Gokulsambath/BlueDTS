@@ -19,7 +19,7 @@ class MessageModelBuilder {
 
         try {
 
-            var result = await this.createXMLContent(data.xml);
+            var result = this.createXMLContent(data.xml);
             var msgModel = new MsgModel.Message();
             var reciever = new MsgModel.Reciever();
 
@@ -138,14 +138,12 @@ class MessageModelBuilder {
         }
     }
 
-    
-
-    async createXMLContent(xml) {
+    createXMLContent(xml) {
 
         var xmlcontent = new XMLContent();
         var status = true;
         var appParser = new XMLParser();
-        await appParser.parseString(xml);
+        appParser.parseString(xml);
         xmlcontent.setTo(appParser.parseTo());
         xmlcontent.setFrom(appParser.parseFrom());
         xmlcontent.setType(appParser.parseType());
@@ -156,6 +154,16 @@ class MessageModelBuilder {
         xmlcontent.setSubject(appParser.parseSubject());
         xmlcontent.setUserAgent(appParser.parseUserAgent());
         return { success: status, content: xmlcontent };
+    }
+
+    createSubjectTag(xml) {
+        var xmlcontent = new XMLContent();
+        var appParser = new XMLParser();
+
+        appParser.parseString(xml);
+        xmlcontent.setSubject(appParser.parseSubject());
+
+        return xmlcontent;
     }
 }
 

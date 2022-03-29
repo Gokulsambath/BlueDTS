@@ -125,11 +125,11 @@ class XMLParser {
         }
     }
 
-    async parseString(xml) {
+    parseString(xml) {
 
         var status = false;
         var obj = null;
-        await xml2js.parseString(xml, function (err, resultObj) {
+        xml2js.parseString(xml, function (err, resultObj) {
             if (!err) {
                 status = true;
                 obj = resultObj;
