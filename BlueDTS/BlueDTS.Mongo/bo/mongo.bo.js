@@ -252,15 +252,24 @@ class MongoBO {
                 catch (err) {
                     console.log(err);
 
-                    row.error_message = err.message;
-                    row.error_stack = err.stack;
+                    if (row.retryCount > 0) {
 
-                    //saving the row in failure log
-                    await this.saveFailedRowLog(subscriberId, row);
+                        row.retryCount = row.retryCount - 1;
+                        iterator.curr_pos = iterator.curr_pos - 1;
+                        continue;
+                    }
+                    else {
+
+                        row.error_message = err.message;
+                        row.error_stack = err.stack;
+                        //saving the row in failure log
+                        await this.saveFailedRowLog(subscriberId, row);
+                    }
                 }
-
                 //clearing the row in cache
-                await this.deleteCacheData(subscriberId, row);
+                if (row.retryCount === 0) {
+                    await this.deleteCacheData(subscriberId, row);
+                }
             }
         }
         else {
