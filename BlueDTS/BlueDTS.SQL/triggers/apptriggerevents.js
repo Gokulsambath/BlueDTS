@@ -36,7 +36,7 @@ class apptriggers {
                 console.log('Trigger has been executed....\n');
                 //row inserted
                 if (oldRow === null) {
-                    console.log('inserted new row');
+                    console.log('inserted new row in ejjaberd.archive');
                     console.log(newRow.fields);
 
                     var Sql_BO = new SqlBO();
@@ -47,9 +47,11 @@ class apptriggers {
                             var result = await Sql_BO.uploadCacheRow(newRow.fields);
                             console.log(result);
                         }
+                        else
+                            console.log("row is failed to validate as per policy.");
                     }
                     else
-                        console.log("row is not eligble to get processed");
+                        console.log("row is not eligble to get processed.");
                 }
 
                 //row deleted

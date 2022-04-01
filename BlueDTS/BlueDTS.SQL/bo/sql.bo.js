@@ -35,6 +35,12 @@ class SqlBo {
         if (newRow.xml === "" || newRow.xml === null)
             return false;
 
+        if (servEnv.restrictedUsernames.length > 0 && servEnv.restrictedUsernames.some(z => z === newRow.username))
+            return false;
+
+        if (servEnv.restrictedBarepeers.length > 0 && servEnv.restrictedBarepeers.some(z => z === newRow.bare_peer))
+            return false;
+
         if (!this.validateSubject(newRow.xml))
             return false;
 
@@ -51,6 +57,16 @@ class SqlBo {
         if (subject === null || subject === undefined || subject === '')
             return false;
 
+        //ignore automated welcome messages
+        if (subject._.includes("Welcome!"))
+            return false;
+
+        try {
+            var parsedsubject = JSON.parse(subject.getSubject());
+        }
+        catch (e) {
+            return false
+        }
         return true;
     }
 }

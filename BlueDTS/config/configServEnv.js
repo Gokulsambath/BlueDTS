@@ -9,7 +9,9 @@ var configServerEnv = {
     defaultRegion: 'US',
     encryptMessageKey: "rqWabc29JQR",
     timestampInterval: 10,
-    retryCount : 3
+    retryCount: 3,
+    restrictedUsernames: [],
+    restrictedBarepeers: ['blueappuser@dev.bluesecures.com']
 }
 
 module.exports = configServerEnv;
