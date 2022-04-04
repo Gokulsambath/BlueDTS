@@ -8,8 +8,8 @@
     Reason      : NA
 ***************************************************************************************************************** */
 
-var Util = require('../../Signal/src/helpers');
-var protocol_address = require('../../Signal/src/protocol_address')
+var Util = require('../../libsignal/src/helpers');
+var protocol_address = require('../../libsignal/src/protocol_address')
 
 class ProtocolStore {
 
@@ -18,7 +18,7 @@ class ProtocolStore {
         this.store = {};
     }
 
-/*---------------------------------------  UTILITY ------------------------------------------------------------*/
+    /*---------------------------------------  UTILITY ------------------------------------------------------------*/
     get(key, defaultValue) {
         if (key === null || key === undefined)
             throw new Error("Tried to get value for undefined/null key");
@@ -42,7 +42,7 @@ class ProtocolStore {
     }
 
 
- /*---------------------------------------  SESSION ------------------------------------------------------------*/
+    /*---------------------------------------  SESSION ------------------------------------------------------------*/
     loadSession(identifier) {
         return this.get('session' + identifier);
     }
@@ -51,7 +51,7 @@ class ProtocolStore {
         return this.put('session' + identifier, record);
     }
 
-  /*---------------------------------------  IDENTITY ------------------------------------------------------------*/
+    /*---------------------------------------  IDENTITY ------------------------------------------------------------*/
     getIdentityKeyPair() {
         return this.get('identityKey');
     }
@@ -101,7 +101,7 @@ class ProtocolStore {
         }
     }
 
-/*---------------------------------------  PRE KEYS ------------------------------------------------------------*/
+    /*---------------------------------------  PRE KEYS ------------------------------------------------------------*/
 
     storePreKey(keyId, keyPair) {
         this.put('25519KeypreKey' + keyId, keyPair);

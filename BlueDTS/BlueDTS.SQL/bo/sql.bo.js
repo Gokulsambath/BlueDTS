@@ -35,10 +35,10 @@ class SqlBo {
         if (newRow.xml === "" || newRow.xml === null)
             return false;
 
-        if (servEnv.restrictedUsernames.length > 0 && servEnv.restrictedUsernames.some(z => z === newRow.username))
+        if (servEnv.restrictedUsernames.length > 0 && servEnv.restrictedUsernames.some(z => newRow.username.includes(z)))
             return false;
 
-        if (servEnv.restrictedBarepeers.length > 0 && servEnv.restrictedBarepeers.some(z => z === newRow.bare_peer))
+        if (servEnv.restrictedBarepeers.length > 0 && servEnv.restrictedBarepeers.some(z => newRow.bare_peer.includes(z)))
             return false;
 
         if (!this.validateSubject(newRow.xml))
@@ -58,9 +58,10 @@ class SqlBo {
             return false;
 
         //ignore automated welcome messages
-        if (subject._.includes("Welcome!"))
-            return false;
-
+        if (typeof subject === 'string') {
+            if (subject.includes("Welcome!"))
+                return false;
+        }
         try {
             var parsedsubject = JSON.parse(subject.getSubject());
         }

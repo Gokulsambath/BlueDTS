@@ -17,6 +17,7 @@ const PreKeysCollectionId = "PreKeys";
 const DTSFailureLogCollectionId = "DTSFailureLog";
 
 var DBConnPool = require('../config/dbconnection');
+var constants = require('../../config/constants/constants')
 
 class MongoDAO {
 
@@ -104,7 +105,7 @@ class MongoDAO {
 
     async createCacheData(dbConfig, newRow) {
         var result = null;
-        var objOutput = { rowID: null};
+        var objOutput = { rowID: null };
 
         try {
             if (this._cacheCollection === null) { await this.initializeContainer(dbConfig); }
@@ -121,36 +122,45 @@ class MongoDAO {
         return result;
     }
 
-    async getCacheData(dbConfig, toTS , fromTS) {
+    // async getCacheData(dbConfig, toTS, fromTS) {
+    //     var result = null;
+    //     var findFilter = {};
+
+    //     try {
+
+    //         if (this._cacheCollection === null) { await this.initializeContainer(dbConfig); }
+
+    //         findFilter.timestamp = { $gte: fromTS, $lt: toTS };
+
+    //         var foundItems = await this._cacheCollection.find(findFilter).toArray();
+
+    //         result = { status: true, rows: foundItems };
+    //     }
+    //     catch (err) {
+    //         result = { status: false, result: err };
+    //     }
+    //     return result;
+    // }
+
+    async getCacheData(dbConfig, page) {
         var result = null;
-        var findFilter = {};
-        
+
         try {
 
             if (this._cacheCollection === null) { await this.initializeContainer(dbConfig); }
+            var limit = constants.messageToProcessInJOB;
+            var skip = page ? isNaN((page) * limit) ? 0 : (page) * limit : 0;
 
-            findFilter.timestamp = { $gte: fromTS, $lt: toTS };
-          
-            var foundItems = await this._cacheCollection.find(findFilter).toArray();
 
-            result = { status: true, rows: foundItems };
-        }
-        catch (err) {
-            result = { status: false, result: err };
-        }
-        return result;
-    }
+            var foundItems = await this._cacheCollection.find().limit(limit).skip(skip).toArray();
 
-    async getCacheData(dbConfig) {
-        var result = null;
+            if (foundItems.length > 0 && foundItems.length >= limit) {
+                page = page ? page += 1 : 1;
+            } else {
+                page = undefined;
+            }
 
-        try {
-
-            if (this._cacheCollection === null) { await this.initializeContainer(dbConfig); }
-
-            var foundItems = await this._cacheCollection.find().toArray();
-
-            result = { status: true, rows: foundItems };
+            result = { status: true, rows: foundItems, lastEvaluatedKey: page };
         }
         catch (err) {
             result = { status: false, result: err };
@@ -167,14 +177,14 @@ class MongoDAO {
             if (this._dTSProcessLogCollection === null) { await this.initializeContainer(dbConfig); }
             this._dTSProcessLogCollection.upsert = true;
 
-           
+
             // disposing the last successfull timestamp in the collection
             findFilter.latest = true;
             findFilter.status = 'S';
 
             var foundItem = await this._dTSProcessLogCollection.findOne(findFilter);
 
-            var updateId = await this._dTSProcessLogCollection.updateOne({ _id: foundItem._id }, { $set: { latest: false , status : 'P' } });
+            var updateId = await this._dTSProcessLogCollection.updateOne({ _id: foundItem._id }, { $set: { latest: false, status: 'P' } });
 
             // set the current row as latest processed object having successful timestamp
             var cacheResult = await this._dTSProcessLogCollection.insertOne(log);
@@ -201,7 +211,7 @@ class MongoDAO {
 
             findFilter.latest = true;
             findFilter.status = 'S';
-            
+
             var foundItem = await this._dTSProcessLogCollection.findOne(findFilter);
 
             if (foundItem)
@@ -224,7 +234,7 @@ class MongoDAO {
             if (this._subscriberCollection === null) { await this.initializeContainer(dbConfig); }
 
             findFilter.subscriberId = subscriberId;
-           
+
             var foundItem = await this._subscriberCollection.findOne(findFilter);
 
             if (foundItem)
@@ -317,7 +327,7 @@ class MongoDAO {
             findFilter._id = row._id;
             var cacheResult = await this._cacheCollection.deleteOne(findFilter);
 
-            result = { status: true};
+            result = { status: true };
         }
         catch (err) {
             result = { status: false, result: err };

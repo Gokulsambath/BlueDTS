@@ -13,7 +13,7 @@ class AppDefaultDAL {
     constructor() {
     }
 
-    
+
     get subscriberDB() {
         return this._subscriberDB;
     }
@@ -26,6 +26,7 @@ class AppDefaultDAL {
     async getDefaultMongoDB() {
         if (this._mongoDefaultDB) return this._mongoDefaultDB;
         else {
+            let result = {};
             //console.warn("Trying to initialize Application default mongo database....");
             var dbObj = await DBConn.initializeDBConnection(AppDBConfig);
             if (dbObj.success) {

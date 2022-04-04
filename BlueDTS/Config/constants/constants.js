@@ -1,5 +1,7 @@
 const cronRange = {
-    ProcessDTSTick: '*/30 * * * * *'
+    ProcessDTSTick: '00 06 * * * *'
 };
 
-module.exports = { cronRange };
+const messageToProcessInJOB = 2000;
+
+module.exports = { cronRange, messageToProcessInJOB };

@@ -14,9 +14,12 @@
 
 
 const DefaultSQLDB = {
-    host: 'pocejcall.bluesecures.com',
-    user: 'deskfactoradmin',
-    password: 'Deskf@ctor?123',
+    // host: 'pocejcall.bluesecures.com',
+    // user: 'deskfactoradmin',
+    // password: 'Deskf@ctor?123',
+    host: 'dev.bluesecures.com',
+    user: 'ejabberd',
+    password: 'BlueDF@1234',
     database: 'ejabberd',
     port: 3306,
     apptriggertable: 'ejabberd' + '.' + 'archive',

@@ -35,17 +35,17 @@ class MongoBO {
         return result;
     }
 
-    async getCacheData(subscriberId, to , from) {
+    // async getCacheData(subscriberId, to, from) {
+
+    //     var mongo_dal = new Mongo_DAL();
+    //     var result = await mongo_dal.fetchCacheRows(subscriberId, to, from);
+    //     return result;
+    // }
+
+    async getCacheData(subscriberId, lastEvaluatedKey) {
 
         var mongo_dal = new Mongo_DAL();
-        var result = await mongo_dal.fetchCacheRows(subscriberId, to, from);
-        return result;
-    }
-
-    async getCacheData(subscriberId) {
-
-        var mongo_dal = new Mongo_DAL();
-        var result = await mongo_dal.fetchCacheRows(subscriberId);
+        var result = await mongo_dal.fetchCacheRows(subscriberId, lastEvaluatedKey);
         return result;
     }
 
@@ -64,7 +64,7 @@ class MongoBO {
         return hash;
     }
 
-    async decryptMessageBody(subscriberId ,cipherText, toId, FromId) {
+    async decryptMessageBody(subscriberId, cipherText, toId, FromId) {
 
         var plainText = "";
         var mongo_dal = new Mongo_DAL();
@@ -93,9 +93,9 @@ class MongoBO {
 
     async decryptSignalCipherText(cipherText, ownerPrekey, selfPrekey) {
 
-        var signal_bo = new Signal_BO();        
+        var signal_bo = new Signal_BO();
         var messageobj = await signal_bo.decryptMessage(cipherText, ownerPrekey, selfPrekey);
-        return messageobj.result;    
+        return messageobj.result;
     }
 
     async getLatestTimestampsToProcess(subscriberId) {
@@ -114,7 +114,7 @@ class MongoBO {
         };
     }
 
-    async saveJobLog(subscriberId , timestamp) {
+    async saveJobLog(subscriberId, timestamp) {
 
         var log = new Log_Model();
 
@@ -124,7 +124,7 @@ class MongoBO {
         log.createdAt = Date.now()
 
         var mongo_dal = new Mongo_DAL();
-        await mongo_dal.saveTimestampLog(subscriberId , log);
+        await mongo_dal.saveTimestampLog(subscriberId, log);
     }
 
     async saveFailedRowLog(subscriberId, row) {
@@ -151,7 +151,7 @@ class MongoBO {
 
             return rows;
         }
-       
+
     }
 
     async processCacheDataOnTimestamp(subscriberId) {
@@ -187,7 +187,7 @@ class MongoBO {
                                 body = await this.decryptMessageBody(txtmodelObj.subscriberId, body, txtmodelObj.receiverXmppId, txtmodelObj.senderXmppId);
                                 body = await this.encryptMessageBody(txtmodelObj.subscriberId, body);
 
-                                txtmodelObj.messageText = body;                               
+                                txtmodelObj.messageText = body;
                             }
                         }
 
@@ -201,7 +201,7 @@ class MongoBO {
                         console.log(err);
                         continue;//log the error and continue processing the next row.
                     }
-                }           
+                }
             }
 
             // here we update the timestamp when all rows are processed successfully.
@@ -211,72 +211,68 @@ class MongoBO {
     }
 
     async processCacheData(subscriberId) {
-
+        let lastEvaluatedKey = null;
         //fetching cached rows
-        var cachedRows = await this.getCacheData(subscriberId);
+        do {
+            var cachedRows = await this.getCacheData(subscriberId, lastEvaluatedKey);
+            lastEvaluatedKey = cachedRows.lastEvaluatedKey;
+            if (cachedRows.status && cachedRows.rows.length > 0) {
 
-        if (cachedRows.status && cachedRows.rows.length > 0) {
+                let iterator = new Iterator();
+                iterator.setDataSource(cachedRows.rows);
 
-            let iterator = new Iterator();
-            iterator.setDataSource(cachedRows.rows);
-          
-            //cache rows processing
-            while (iterator.hasNext()) {
-                let row = iterator.next();
-                let msgbuilder = new MessageModelBuilder();
-                try {
+                //cache rows processing
+                while (iterator.hasNext()) {
+                    let row = iterator.next();
+                    let msgbuilder = new MessageModelBuilder();
+                    try {
 
-                    // complete rowobj formation based on different message type
-                    let txtmodelObj = await msgbuilder.createMessageModel(row);
+                        // complete rowobj formation based on different message type
+                        let txtmodelObj = await msgbuilder.createMessageModel(row);
 
-                    //body extraction and processing
-                    var body = txtmodelObj.messageText;
-                    if (txtmodelObj.messageType === "text" || txtmodelObj.messageType === "url") {
-                        if (body != null || body !== undefined || body !== "") {
+                        //body extraction and processing
+                        var body = txtmodelObj.messageText;
+                        if (txtmodelObj.messageType === "text" || txtmodelObj.messageType === "url") {
+                            if (body) {
+                                //cryptographic activities
+                                body = body.replace(/\s/g, '');
+                                body = await this.decryptMessageBody(txtmodelObj.subscriberId, body, txtmodelObj.receiverXmppId, txtmodelObj.senderXmppId);
+                                body = await this.encryptMessageBody(txtmodelObj.subscriberId, body);
+                                txtmodelObj.messageText = body;
+                            }
+                        }
 
-                            //cryptographic activities
-                            body = body.replace(/\s/g, '');
-                            body = await this.decryptMessageBody(txtmodelObj.subscriberId, body, txtmodelObj.receiverXmppId, txtmodelObj.senderXmppId);
-                            body = await this.encryptMessageBody(txtmodelObj.subscriberId, body);
+                        const size = new TextEncoder().encode(JSON.stringify(txtmodelObj)).length;
+                        txtmodelObj.size = size;
 
-                            txtmodelObj.messageText = body;
+                        // here we save the finally processed row to mongo collection.
+                        await this.saveArchivalRow(txtmodelObj.subscriberId, txtmodelObj);
+                        row.retryCount = 0;
+                    }
+                    catch (err) {
+                        console.log(err);
+                        if (row.retryCount !== 0 && !row.retryCount) row.retryCount = 3;
+                        if (row.retryCount > 0) {
+                            row.retryCount = row.retryCount - 1;
+                            iterator.curr_pos = iterator.curr_pos - 1;
+                            continue;
+                        } else {
+                            row.error_message = err.message;
+                            row.error_stack = err.stack;
+                            //saving the row in failure log
+                            await this.saveFailedRowLog(subscriberId, row);
                         }
                     }
-
-                    const size = new TextEncoder().encode(JSON.stringify(txtmodelObj)).length;
-                    txtmodelObj.size = size;
-
-                    // here we save the finally processed row to mongo collection.
-                    await this.saveArchivalRow(txtmodelObj.subscriberId, txtmodelObj);
-                    row.retryCount = 0;
-                }
-                catch (err) {
-                    console.log(err);
-
-                    if (row.retryCount > 0) {
-
-                        row.retryCount = row.retryCount - 1;
-                        iterator.curr_pos = iterator.curr_pos - 1;
-                        continue;
-                    }
-                    else {
-
-                        row.error_message = err.message;
-                        row.error_stack = err.stack;
-                        //saving the row in failure log
-                        await this.saveFailedRowLog(subscriberId, row);
+                    //clearing the row in cache
+                    if (row.retryCount === 0) {
+                        await this.deleteCacheData(subscriberId, row);
                     }
                 }
-                //clearing the row in cache
-                if (row.retryCount === 0) {
-                    await this.deleteCacheData(subscriberId, row);
-                }
+            } else {
+
+                console.log("No rows to process in this batch.");
             }
-        }
-        else {
-
-            console.log("No rows to process in this batch.");
-        }
+        } while (lastEvaluatedKey !== undefined);
         return true;
     }
 
@@ -296,8 +292,8 @@ class MongoBO {
     }
 
     add_minutes = function (dt, minutes) {
-    return new Date(dt.getTime() + minutes * 60000);
-}
+        return new Date(dt.getTime() + minutes * 60000);
+    }
 
 }
 module.exports = MongoBO;

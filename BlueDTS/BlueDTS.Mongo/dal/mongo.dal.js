@@ -23,32 +23,32 @@ class MongoDAL {
         var result = {};
 
         //to do :logic to add the mongoserver db based on subscriberid
-    
+
         var dbmongo = new DBMongo();
         var dbConfig = Config_BO.getDatabaseSettings(subscriberId);
         result = await dbmongo.createCacheData(dbConfig, rowData);
         return result;
     }
 
-    async fetchCacheRows(subscriberId, to , from) {
+    // async fetchCacheRows(subscriberId, to, from) {
+    //     var result = {};
+
+    //     //to do :logic to add the mongoserver db based on subscriberid
+
+    //     var dbmongo = new DBMongo();
+    //     var dbConfig = Config_BO.getDatabaseSettings(subscriberId);
+    //     result = await dbmongo.getCacheData(dbConfig, to, from);
+    //     return result;
+    // }
+
+    async fetchCacheRows(subscriberId, lastEvaluatedKey) {
         var result = {};
 
         //to do :logic to add the mongoserver db based on subscriberid
 
         var dbmongo = new DBMongo();
         var dbConfig = Config_BO.getDatabaseSettings(subscriberId);
-        result = await dbmongo.getCacheData(dbConfig, to , from);
-        return result;
-    }
-
-    async fetchCacheRows(subscriberId) {
-        var result = {};
-
-        //to do :logic to add the mongoserver db based on subscriberid
-
-        var dbmongo = new DBMongo();
-        var dbConfig = Config_BO.getDatabaseSettings(subscriberId);
-        result = await dbmongo.getCacheData(dbConfig);
+        result = await dbmongo.getCacheData(dbConfig, lastEvaluatedKey);
         return result;
     }
 
@@ -85,7 +85,7 @@ class MongoDAL {
         return result;
     }
 
-    async saveTimestampLog(subscriberId , log) {
+    async saveTimestampLog(subscriberId, log) {
         var result = {};
 
         //to do :logic to add the mongoserver db based on subscriberid

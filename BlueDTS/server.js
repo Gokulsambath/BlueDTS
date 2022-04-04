@@ -8,7 +8,7 @@
     Reason      : NA
 ***************************************************************************************************************** */
 
-var app = require('./../BlueDTS/config/startServer');
+var app = require('./config/startServer');
 var createError = require('http-errors');
 
 // error handler
@@ -22,7 +22,7 @@ app.use(function (err, req, res, next) {
     res.render('error');
 });
 
-console.log('DTS starts from here...'); 
+console.log('DTS starts from here...');
 module.exports = app;
 
 

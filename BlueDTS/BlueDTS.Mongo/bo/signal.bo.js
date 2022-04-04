@@ -1,6 +1,6 @@
-var libsignal = require("../../Signal/index")
+var libsignal = require("../../libsignal/index")
 var Crypto_LIB = require("../../BlueDTS.Library/crypto/crypto");
-const BaseKeyType = require('../../Signal/src/base_key_type');
+const BaseKeyType = require('../../libsignal/src/base_key_type');
 var base64buffer = require('base64-arraybuffer');
 var store = null;
 
@@ -8,7 +8,7 @@ var store = null;
 class SignalBO {
 
     constructor() {
-       
+
     }
 
     initializeMethod(ownerPrekey, selfPrekey) {
@@ -44,7 +44,7 @@ class SignalBO {
         store.saveIdentity(identifier, identityKey)
     }
 
-    async decryptMessage(cipherText, ownerPrekey, selfPrekey ) {
+    async decryptMessage(cipherText, ownerPrekey, selfPrekey) {
         try {
 
             this.initializeMethod(ownerPrekey, selfPrekey);
@@ -62,14 +62,14 @@ class SignalBO {
             // rejects if the identityKey differs from a previously seen identity for this
             // address.
             var plaintextbuffer = await sessionCipher.decryptPreKeyWhisperMessage(bufferctext);
-           
+
             // level 1 decoding
             var plaintext = Buffer.from(plaintextbuffer, "base64").toString("utf8");
             //level 2 decoding
             plaintext = Buffer.from(plaintext, "base64").toString("utf8");
 
-            return { "status": true, result: plaintext};
-            
+            return { "status": true, result: plaintext };
+
         } catch (error) {
             console.log(error);
             throw new Error('error decrypting ciphertext to plaintext using signal');

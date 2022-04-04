@@ -23,6 +23,7 @@ class AppDefaultDAL {
 
         if (this._sqlDefaultDB) return this._sqlDefaultDB;
         else {
+            let result = {};
             //console.warn("Trying to initialize Application default mysql database....");
             var dbObj = await DBConn.initializeDBConnection(AppDBConfig);
             if (dbObj.success) {
